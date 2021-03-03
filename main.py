@@ -81,9 +81,11 @@ def files_check():
                 if i.find(liness) == -1 and i.find(linest) == -1:
                     restart = False
     k = remove(k)
+    for item in k:
+        if len(item) != 0:
+            print(parcer.parce(params={'search': item.replace(' ', '+')}))
     f.writelines(k)
     f.close()
-    search()
 
 
 def remove(k):
@@ -103,13 +105,13 @@ def remove(k):
                 k[idy] = k[idy].replace(word, "").strip()
                 if len(k[idy]) == 0:
                     break
-                #er = k.index(word)
-                #re_ = re.compile(r'{}'.format(word))
-                #k[k.index(word)] = re.sub(re_, '', k[k.index(word)])
+                # er = k.index(word)
+                # re_ = re.compile(r'{}'.format(word))
+                # k[k.index(word)] = re.sub(re_, '', k[k.index(word)])
                 print(k[idy])
-    for idx, i in enumerate(k):
+    """for idx, i in enumerate(k):
         if len(k[idx]) != 0:
-            k[idx] += "\n"
+            k[idx] += "\n"""
     return k
 
 
@@ -136,4 +138,4 @@ def search():
 #parce("Sword+Art+Online+Alicization+-+War+of+Underworld+2nd+Season")
 
 
-parcer.parce()
+files_check()
