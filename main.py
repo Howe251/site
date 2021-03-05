@@ -8,7 +8,6 @@ from mysql.connector import Error
 from configparser import ConfigParser
 
 
-# mysql.connector.connect(host='localhost', database='mysql', user='root', password='aNfCT9BKTeYyVqBn')
 
 def read_db_config(filename='config.ini', section='mysql'):
     """ Read database configuration file and return a dictionary object
