@@ -6,7 +6,6 @@ from shikimori_api import Shikimori
 from kinopoisk.movie import Movie
 
 
-# mysql.connector.connect(host='localhost', database='mysql', user='root', password='aNfCT9BKTeYyVqBn')
 
 def files_check():
     # os.system("find /srv/hp/Downloads/films -name *.mkv -printf '%f\n'> playlist.txt")
