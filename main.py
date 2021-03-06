@@ -6,7 +6,6 @@ from shikimori_api import Shikimori
 from kinopoisk.movie import Movie
 
 
-
 def files_check():
     # os.system("find /srv/hp/Downloads/films -name *.mkv -printf '%f\n'> playlist.txt")
     os.system("find /srv/hp/Downloads/films/ -type d -maxdepth 2 -printf '%f\n'> playlist.txt")
@@ -36,7 +35,7 @@ def files_check():
     for item in k:
         if len(item) != 0:
             #print(parcer.search(params={'search': item.strip().replace(' ', '+')}))
-            Database.export(parcer.parce(params={'search': item.strip().replace(' ', '+')}))
+            Database.export_mult(parcer.parce(params={'search': item.strip().replace(' ', '+')}))
     #f = open("playlist.txt", "w+")
     #f.writelines(k)
     y = 2
@@ -92,7 +91,7 @@ def search():
         api.animes(1).screenshots.GET()
 
         print(ia.search_movie("Shingeki no Kyojin"))
-        # TODO: Парсер Шикимори
+        #
         # f.write(k)
 
 

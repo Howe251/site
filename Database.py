@@ -68,7 +68,7 @@ def connect(db):
         print(e)
 
 
-def export(k):
+def export_mult(k):
     try:
         conn = connect(read_db_config())
         cursor = conn.cursor()
