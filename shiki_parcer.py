@@ -24,9 +24,9 @@ def get_content(html):
     soup = BeautifulSoup(html, 'html.parser')
     name = soup.find('h1').get_text()
     eps = "Фильм"
-    #item = soup.find('div', class_='b-db_entry')
+    item = soup.find('div', class_='b-db_entry')
+    img = item.find('img').get('src')
     anime = []
-    #for item in items:
     info = soup.find_all('div', class_='line-container')
     print(len(info))
     for item in info:
@@ -38,6 +38,11 @@ def get_content(html):
             elif a == 'Статус:':
                 st = item.find('span', class_='b-anime_status_tag')
                 status = st.get('data-text') + item.find('div', class_='value').get_text()
+            elif a == 'Жанры:':
+                genre = ''
+                for n in item.find_all('span', class_='genre-ru'):
+                    genre += n.get_text() + ' '
+                print(genre)
                 break
     desc = soup.find('div', class_='b-text_with_paragraphs').get_text()
     print(desc)
@@ -46,7 +51,9 @@ def get_content(html):
             'name': name,
             'episodes': eps,
             'status': status,
-            'description': desc
+            'description': desc,
+            'genre': genre,
+            'img': img
         })
     return anime[0]
 

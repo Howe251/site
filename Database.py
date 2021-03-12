@@ -28,11 +28,15 @@ def drop():
     conn = connect(read_db_config())
     cursor = conn.cursor()
     try:
-        cursor.execute("""DROP TABLE mults;""")
+        cursor.execute("""DELETE FROM mult_mult;""")
         conn.commit()
-        cursor.execute("""DROP TABLE films;""")
+        cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=0;""")
         conn.commit()
-        create(conn)
+        cursor.execute("""DELETE FROM films;""")
+        conn.commit()
+        cursor.execute("""ALTER TABLE films AUTO_INCREMENT=0;""")
+        conn.commit()
+        # create(conn)
         conn.close()
     except Error:
         print(Error)
@@ -42,18 +46,19 @@ def drop():
 def create(conn):
     cursor = conn.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS mults(
-                               idm INT NOT NULL AUTO_INCREMENT,
+                               id INT NOT NULL AUTO_INCREMENT,
                                name TEXT NOT NULL,
                                episodes TEXT NOT NULL,
                                status TEXT NOT NULL,
                                description TEXT NOT NULL,
-                               PRIMARY KEY (`idm`)) ENGINE = InnoDB;""")
+                               img TEXT NOT NULL,
+                               PRIMARY KEY (`id`)) ENGINE = InnoDB;""")
     cursor.execute("""CREATE TABLE IF NOT EXISTS films(
-                                           idf INT PRIMARY KEY,
-                                           name TEXT,
-                                           episodes TEXT,
-                                           status TEXT,
-                                           description TEXT);""")
+                               idf INT NOT NULL AUTO_INCREMENT,
+                               name TEXT,
+                               episodes TEXT,
+                               status TEXT,
+                               description TEXT);""")
     conn.commit()
 
 
@@ -73,7 +78,7 @@ def export_mult(k):
         conn = connect(read_db_config())
         cursor = conn.cursor()
         y = 1
-        insert = f"INSERT INTO mults(name, episodes, status, description) VALUES ('{k['name']}', '{k['episodes']}', '{k['status']}', '{k['description']}')"
+        insert = f"INSERT INTO mult_mult (name, episodes, status, description, img, genre) VALUES ('{k['name']}', '{k['episodes']}', '{k['status']}', '{k['description']}', '{k['img']}', '{k['genre']}')"
         print(insert)
         cursor.execute(insert)
         conn.commit()
