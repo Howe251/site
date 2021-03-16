@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import logging
-from grab import Grab
+from kinopoisk.movie import Movie
 
 URL = 'https://shikimori.one/animes'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
@@ -9,15 +8,21 @@ HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko
 
 
 def get_html(url, params=None):
-    r = requests.get(url, headers=HEADERS, params=params)
-    return r
+    try:
+        r = requests.get(url, headers=HEADERS, params=params)
+        return r
+    except requests.exceptions.MissingSchema as e:
+        print(e)
 
 
 def get_url(html):
-    soup = BeautifulSoup(html, 'html.parser')
-    items = soup.find('article')
-    link = items.find('a').get('href')
-    return link
+    try:
+        soup = BeautifulSoup(html, 'html.parser')
+        items = soup.find('article')
+        link = items.find('a').get('href')
+        return link
+    except AttributeError as e:
+        print(e)
 
 
 def get_content(html):
@@ -76,11 +81,14 @@ def search(params):
 
 
 def parce(params):
-    url = search(params)
-    html = get_html(url)
-    title = get_content(html.text)
-    print(title)
-    return title
+    try:
+        url = search(params)
+        html = get_html(url)
+        title = get_content(html.text)
+        print(title)
+        return title
+    except AttributeError as e:
+        print(e)
 
 
 

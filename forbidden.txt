@@ -2,6 +2,7 @@ films/
 V_trube
 Фильмы
 Мультики
+BDRip
 bdrip_
 1080p
 AMZN
@@ -35,3 +36,9 @@ Kinozal
 tv
 WEB
 S01
+TV
+AAC
+2160p
+HDR
+BD
+mkv

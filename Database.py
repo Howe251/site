@@ -20,7 +20,7 @@ def read_db_config(filename='config.ini', section='mysql'):
         for item in items:
             db[item[0]] = item[1]
     else:
-        raise Exception('{0} not found in the {1} file'.format(section, filename))
+        raise Exception(f'{section} not found in the {filename} file')
     return db
 
 
@@ -28,19 +28,18 @@ def drop():
     conn = connect(read_db_config())
     cursor = conn.cursor()
     try:
-        cursor.execute("""DELETE FROM mult_mult;""")
+        cursor.execute("""DROP TABLE mults;""")
         conn.commit()
-        cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=0;""")
-        conn.commit()
+        #cursor.execute("""ALTER TABLE mults AUTO_INCREMENT=0;""")
+        #conn.commit()
         cursor.execute("""DELETE FROM films;""")
         conn.commit()
         cursor.execute("""ALTER TABLE films AUTO_INCREMENT=0;""")
         conn.commit()
-        # create(conn)
+        create(conn)
         conn.close()
     except Error:
         print(Error)
-
 
 
 def create(conn):
@@ -52,6 +51,8 @@ def create(conn):
                                status TEXT NOT NULL,
                                description TEXT NOT NULL,
                                img TEXT NOT NULL,
+                               genre TEXT NOT NULL,
+                               unformated_name TEXT NOT NULL,
                                PRIMARY KEY (`id`)) ENGINE = InnoDB;""")
     cursor.execute("""CREATE TABLE IF NOT EXISTS films(
                                idf INT NOT NULL AUTO_INCREMENT,
@@ -77,12 +78,13 @@ def export_mult(k):
     try:
         conn = connect(read_db_config())
         cursor = conn.cursor()
-        y = 1
-        insert = f"INSERT INTO mult_mult (name, episodes, status, description, img, genre) VALUES ('{k['name']}', '{k['episodes']}', '{k['status']}', '{k['description']}', '{k['img']}', '{k['genre']}')"
+        for id, item in enumerate(k):
+            print(id, k) # TODO Вписать сюда скрипт добавления серий в базу данных и разобраться с Дитя погоды
+        print(k[0]['name'])
+        insert = f"INSERT INTO mults (name, episodes, status, description, img, genre, unformated_name) VALUES ('{k[0]['detail']['name']}', '{k[0]['detail']['episodes']}', '{k[0]['detail']['status']}', '{k[0]['detail']['description']}', '{k[0]['detail']['img']}', '{k[0]['detail']['genre']}', '{k[0]['directory']}')"
         print(insert)
         cursor.execute(insert)
         conn.commit()
-        y += 1
         conn.close()
     except mysql.connector.errors.DatabaseError as err:
         print("Error: ", err)
