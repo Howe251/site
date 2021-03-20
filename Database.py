@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 from configparser import ConfigParser
+import shiki_parcer
 
 
 def read_db_config(filename='config.ini', section='mysql'):
@@ -24,19 +25,41 @@ def read_db_config(filename='config.ini', section='mysql'):
     return db
 
 
+def get_mults():
+    animes = []
+    conn = connect(read_db_config())
+    cursor = conn.cursor()
+    cursor.execute("SELECT unformated_name, id FROM mult_mult")  # Список всех тайтлов
+    rows = cursor.fetchall()
+    for row in rows:
+        cursor.execute(f"SELECT href FROM `mult_series` "
+                       f"WHERE name_id = (SELECT id FROM mult_mult WHERE id = {row[1]})")  # Спиоск всех серий с id
+        series = cursor.fetchall()
+        animes.append({'title_name': row[0],
+                       'serie_name': series,
+                       'id': row[1]})
+    return animes
+
+
 def drop():
     conn = connect(read_db_config())
     cursor = conn.cursor()
+    rows = get_mults()
     try:
-        cursor.execute("""DROP TABLE mults;""")
+        cursor.execute("""DELETE FROM mults;""")
         conn.commit()
-        #cursor.execute("""ALTER TABLE mults AUTO_INCREMENT=0;""")
-        #conn.commit()
+        cursor.execute("""ALTER TABLE mults AUTO_INCREMENT=1;""")
+        conn.commit()
         cursor.execute("""DELETE FROM films;""")
         conn.commit()
-        cursor.execute("""ALTER TABLE films AUTO_INCREMENT=0;""")
+        cursor.execute("""ALTER TABLE films AUTO_INCREMENT=1;""")
         conn.commit()
-        create(conn)
+        for row in rows:
+            cursor.execute(f"DELETE FROM mult_mult WHERE id = {row['id']};")
+        conn.commit()
+        cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=1;""")
+        cursor.execute("""ALTER TABLE mult_series AUTO_INCREMENT=1;""")
+        conn.commit()
         conn.close()
     except Error:
         print(Error)
@@ -76,17 +99,42 @@ def connect(db):
 
 def export_mult(k):
     try:
-        conn = connect(read_db_config())
-        cursor = conn.cursor()
-        for id, item in enumerate(k):
-            print(id, k) # TODO Вписать сюда скрипт добавления серий в базу данных и разобраться с Дитя погоды
-        print(k[0]['name'])
-        insert = f"INSERT INTO mults (name, episodes, status, description, img, genre, unformated_name) VALUES ('{k[0]['detail']['name']}', '{k[0]['detail']['episodes']}', '{k[0]['detail']['status']}', '{k[0]['detail']['description']}', '{k[0]['detail']['img']}', '{k[0]['detail']['genre']}', '{k[0]['directory']}')"
-        print(insert)
-        cursor.execute(insert)
-        conn.commit()
-        conn.close()
+        for item in k:
+            conn = connect(read_db_config())
+            cursor = conn.cursor()
+            print(item['series'][0])
+            insert = f"INSERT INTO mult_mult (name, episodes, status, description, img, genre, unformated_name) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}')"
+            print(insert)
+            cursor.execute(insert)
+            conn.commit()
+            for serie in enumerate(item['series']):
+                into_series = f"SELECT '{item['detail']['name']}', id FROM mult_mult WHERE name='{item['detail']['name']}';"
+                print(into_series)
+                cursor.execute(into_series)
+                rows = cursor.fetchall()
+                for row in rows:
+                    print(f"{row}")
+                export_series(serie, rows[0][1])
     except mysql.connector.errors.DatabaseError as err:
         print("Error: ", err)
 
 
+def export_series(item, id):
+    try:
+        conn = connect(read_db_config())
+        cursor = conn.cursor()
+        insert = f"""INSERT INTO mult_series (name_serie, href, name_id) VALUES ("{item[1]['name']}", "{item[1]['full_name']}", "{id}")"""
+        print(insert)
+        cursor.execute(insert)
+        conn.commit()
+    except mysql.connector.errors.DatabaseError as err:
+        print("Error: ", err)
+
+
+#export_mult([{'name': 'Доктор Стоун',
+#             'directory': 'Доктор Стоун S01',
+#             'series': [{'name': 'Dr  Stone - серия 07 - Убежие, которому 100 миллионов лет',
+#                        'full_name': '[AniPlague] Dr. Stone - серия 07 - Убежие, которому 100 миллионов лет.mkv'},
+#                        {'name': 'Dr  Stone - серия 16 - История, которой несколько тысяч лет',
+#                         'full_name':'[AniPlague] Dr. Stone - серия 16 - История, которой несколько тысяч лет.mkv'}],
+#             'detail': shiki_parcer.parce(params={'search': 'Доктор Стоун'})},])

@@ -1,70 +1,117 @@
 import os
 import shiki_parcer as parcer
 import Database
-from imdb import IMDb
-from shikimori_api import Shikimori
-from kinopoisk.movie import Movie
+import kinopoisk_parcer
 
 mults = []
 films = []
 serial = False
 
-def check_files_mkv():
+
+def find_series_mult(k, i, mult):
+    print(k[i])
+    print(k[i].count('/'))
+    if mult in k[i]: #playlist.index(k[i][0:k[i].find('/')]) == 0:
+        directory = k[i].replace(mult, '')
+        if k[i].count('/') > 6:
+            serial = True
+            pathid = directory.find('/')
+            path = directory[0:pathid]
+            print(path)
+            print(directory[0:pathid].replace(".", " "))
+            name = remove(directory[0:pathid].replace(".", " "))
+        else:
+            path = directory
+            name = remove(directory.replace(".", " "))
+            serial = False
+        series = []
+        if serial:
+            while path in k[i]:
+                seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/')+1::]
+                nameofseria = remove(seria)
+                series.append({'name': nameofseria,
+                               'full_name': seria})
+                print(seria)
+                if path not in k[i+1]:
+                    break
+                i+=1
+        else:
+            seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/') + 1::]
+            nameofseria = remove(seria)
+            series.append({'name': nameofseria,
+                           'full_name': seria})
+            print(seria)
+    return name, series, path, i
+
+
+def check_files_mkv_mult():
+    os.system("find /srv/hp/Downloads/films -name *.mkv > playlist.txt")
+    k = open("playlist.txt", "r").readlines()
+    mult = "/srv/hp/Downloads/films/Мультики/"
+    k = [line[:-1] for line in k]
+    i = 0
+    while i < len(k):
+        if mult in k[i]:
+            name, series, path, i = find_series_mult(k, i, mult)
+            mults.append({'name': name,
+                          'directory': path,
+                          'series': series,
+                          'detail': parcer.parce(params={'search': name.replace(' ', '+')})})
+        i+=1
+    return mults
+
+
+def export(mults):
+    Database.export_mult(mults)
+
+
+def check_files_mkv_film():
     os.system("find /srv/hp/Downloads/films -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
     film = "/srv/hp/Downloads/films/Фильмы/"
-    mult = "/srv/hp/Downloads/films/Мультики/"
     k = [line[:-1] for line in k]
-    i=0
+    i = 0
     while i < len(k):
-        print(k[i])
-        m = True
-        print(k[i].count('/'))
-        if mult in k[i]: #playlist.index(k[i][0:k[i].find('/')]) == 0:
-            directory = k[i].replace(mult, '')
+        if film in k[i]:
+            directory = k[i].replace(film, '')
             if k[i].count('/') > 6:
                 serial = True
                 pathid = directory.find('/')
                 path = directory[0:pathid]
                 print(path)
                 print(directory[0:pathid].replace(".", " "))
-                name = remove(directory[0:pathid].replace(".", " "))
+                name = directory[0:pathid].replace("_", " ")
+                name = remove(name.replace(".", " "))
             else:
                 path = directory
-                name = remove(directory.replace(".", " "))
+                name = directory.replace("_", " ")
+                name = remove(name.replace(".", " "))
                 serial = False
             series = []
             if serial:
                 while path in k[i]:
-                    seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/')+1::]
+                    seria = k[i].replace(film, '')[k[i].replace(film, '').find('/') + 1::]
                     nameofseria = remove(seria)
                     series.append({'name': nameofseria,
                                    'full_name': seria})
                     print(seria)
-                    if path not in k[i+1]:
+                    if path not in k[i + 1]:
                         break
-                    i+=1
+                    i += 1
             else:
-                seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/') + 1::]
+                seria = k[i].replace(film, '')[k[i].replace(film, '').find('/') + 1::]
                 nameofseria = remove(seria)
                 series.append({'name': nameofseria,
                                'full_name': seria})
                 print(seria)
-            mults.append({'name': name,
+            films.append({'name': name,
                           'directory': path,
                           'series': series,
-                          'detail': parcer.parce(params={'search': name.replace(' ', '+')})})
-        elif film in k[i]:
-
-            m = False
-            route = k[i].replace(film, '')
+                          'detail': kinopoisk_parcer.Film_parse(name)})
         i+=1
-    Database.export_mult(mults)
 
 
-
-
-def files_check():
+"""def files_check():
     # os.system("find /srv/hp/Downloads/films -name *.mkv -printf '%f\n'> playlist.txt")
     os.system("find /srv/hp/Downloads/films/ -type d -maxdepth 2 -printf '%f\n'> playlist.txt")
     f = open("playlist.txt", "r")
@@ -110,7 +157,38 @@ def files_check():
         if not film:
             #Database.export(parcer.parce(params={'search': k[y].replace(' ', '+')}))
             y += 1
-    #f.close()
+    #f.close()"""
+
+
+def find_new():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
+    series = Database.get_mults()
+    os.system("find /srv/hp/Downloads/films -name *.mkv > playlist.txt")
+    k = open("playlist.txt", "r").readlines()
+    mult = "/srv/hp/Downloads/films/Мультики/"
+    k = [line[:-1] for line in k]
+    i = 0
+    mm = []
+    while i < len(k) and mult in k[i]:
+        name, ser, path, i = find_series_mult(k, i, mult)
+        mm.append({'name': name,
+                   'series': ser,
+                   'path': path})
+        i += 1
+    ser = [{},]
+    for title_local in mm:
+        for title_BD in series:
+            if title_BD['title_name'] == title_local['path']:
+                for ser_title_local in title_local['series']:
+                    if ser_title_local['full_name'] in [ser_title_BD[0] for ser_title_BD in title_BD['serie_name']]:
+                        pass
+                        # print(ser_title_local[0], " --> ", "ЕСТЬ")
+                    else:
+                        print(ser_title_local['full_name'], " --> ", "НЕТУ")
+                        ser.append({'name': ser_title_local['name'],
+                                    'full_name': ser_title_local['full_name']})
+                        Database.export_series(ser, title_BD['id'])
+                        series = Database.get_mults()
+                        break
 
 
 def remove(k):
@@ -156,23 +234,6 @@ def remove(k):
     return k
 
 
-def search():
-    with open("playlist.txt", "r") as f:
-        ia = IMDb()
-        k = f.readlines()
-        # print(Movie.objects.search(f))
-        # for idx in k:
-
-        session = Shikimori()
-        api = session.get_api()
-        api.animes.Get(search="Sword Art Online Alicization - War of Underworld 2nd Season", kind='movie')
-        api.animes(1).GET()
-        api.animes(1).screenshots.GET()
-
-        print(ia.search_movie("Shingeki no Kyojin"))
-        #
-        # f.write(k)
-
 
 # connect(read_db_config())
 # files_check()
@@ -180,4 +241,6 @@ def search():
 # parce("Sword+Art+Online+Alicization+-+War+of+Underworld+2nd+Season")
 
 #Database.drop()
-check_files_mkv()
+find_new()
+#export(check_files_mkv_mult())
+#Database.get_mults()

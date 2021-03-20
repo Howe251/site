@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import kinopoisk_parcer
 from kinopoisk.movie import Movie
 
 URL = 'https://shikimori.one/animes'
@@ -80,18 +81,28 @@ def search(params):
         print("Error")
 
 
+def try_repeat(func):
+    def wrapper(*args, **kwargs):
+        count = 10
+
+        while count:
+            try:
+                return func(*args, **kwargs)
+            except Exception as e:
+                print("Ошибка: Попытка поиска в IMDB")
+                kinopoisk_parcer.translate(*args, **kwargs)
+                print('Error:', e)
+                count -= 1
+    return wrapper
+
+
+@try_repeat
 def parce(params):
-    try:
-        url = search(params)
-        html = get_html(url)
-        title = get_content(html.text)
-        print(title)
-        return title
-    except AttributeError as e:
-        print(e)
-
-
-
+    url = search(params)
+    html = get_html(url)
+    title = get_content(html.text)
+    print(title)
+    return title
 
 
 
@@ -100,4 +111,4 @@ def parce(params):
     g.go('https://shikimori.one/animes', method='get')'''
 
 # params = None
-# parce(params)
+#parce(params={'search': 'DityaPogody'})

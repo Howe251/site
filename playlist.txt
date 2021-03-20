@@ -321,6 +321,7 @@
 /srv/hp/Downloads/films/Мультики/Magia Record Mahou Shoujo Madoka Magica Gaiden/Magia Record Mahou Shoujo Madoka Magica Gaiden - 13.mkv
 /srv/hp/Downloads/films/Мультики/Magia Record Mahou Shoujo Madoka Magica Gaiden/Magia Record Mahou Shoujo Madoka Magica Gaiden - 05.mkv
 /srv/hp/Downloads/films/Мультики/Magia Record Mahou Shoujo Madoka Magica Gaiden/Magia Record Mahou Shoujo Madoka Magica Gaiden - 10.mkv
+/srv/hp/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e08.mkv
 /srv/hp/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e05.mkv
 /srv/hp/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e02.mkv
 /srv/hp/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e03.mkv
@@ -543,6 +544,7 @@
 /srv/hp/Downloads/films/Фильмы/Stranger.Things.S03.720p.DUB/Stranger.Things.S03E06.Chapter.Six.E.Pluribus.Unum.720p.mkv
 /srv/hp/Downloads/films/Фильмы/Stranger.Things.S03.720p.DUB/Stranger.Things.S03E07.Chapter.Seven.The.Bite.720p.mkv
 /srv/hp/Downloads/films/Фильмы/Солнечный удар (расширенная версия) - web-dl1080p.mkv
+/srv/hp/Downloads/films/Фильмы/The.Falcon.and.The.Winter.Soldier.S01E01.New.World.Order.DSNP.HDR.WEB-DL.2160p.by.AKTEP.mkv
 /srv/hp/Downloads/films/Фильмы/The.Boys.S01.1080p.WEBRip.DDP5.1.TeamHD/The.Boys.S01E07.1080p.WEBRip.DDP5.1.TeamHD.mkv
 /srv/hp/Downloads/films/Фильмы/The.Boys.S01.1080p.WEBRip.DDP5.1.TeamHD/The.Boys.S01E05.1080p.WEBRip.DDP5.1.TeamHD.mkv
 /srv/hp/Downloads/films/Фильмы/The.Boys.S01.1080p.WEBRip.DDP5.1.TeamHD/The.Boys.S01E02.1080p.WEBRip.DDP5.1.TeamHD.mkv
