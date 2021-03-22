@@ -38,29 +38,53 @@ def get_mults():
         animes.append({'title_name': row[0],
                        'serie_name': series,
                        'id': row[1]})
+    conn.close()
     return animes
 
 
-def drop():
+def get_films():
+    films = []
     conn = connect(read_db_config())
     cursor = conn.cursor()
-    rows = get_mults()
+    cursor.execute("SELECT unformated_name, id FROM mult_film")  # Список всех тайтлов
+    rows = cursor.fetchall()
+    for row in rows:
+        cursor.execute(f"SELECT href FROM `mult_seriesfilms` "
+                       f"WHERE name_id = (SELECT id FROM mult_film WHERE id = {row[1]})")  # Спиоск всех серий с id
+        series = cursor.fetchall()
+        films.append({'title_name': row[0],
+                       'serie_name': series,
+                       'id': row[1]})
+    conn.close()
+    return films
+
+
+def drop(films=False, mults=False):
+    conn = connect(read_db_config())
+    cursor = conn.cursor()
     try:
-        cursor.execute("""DELETE FROM mults;""")
-        conn.commit()
-        cursor.execute("""ALTER TABLE mults AUTO_INCREMENT=1;""")
-        conn.commit()
-        cursor.execute("""DELETE FROM films;""")
-        conn.commit()
-        cursor.execute("""ALTER TABLE films AUTO_INCREMENT=1;""")
-        conn.commit()
-        for row in rows:
-            cursor.execute(f"DELETE FROM mult_mult WHERE id = {row['id']};")
-        conn.commit()
-        cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=1;""")
-        cursor.execute("""ALTER TABLE mult_series AUTO_INCREMENT=1;""")
-        conn.commit()
-        conn.close()
+        if mults:
+            rows = get_mults()
+            cursor.execute("""DELETE FROM mults;""")
+            conn.commit()
+            cursor.execute("""ALTER TABLE mults AUTO_INCREMENT=1;""")
+            conn.commit()
+            for row in rows:
+                cursor.execute(f"DELETE FROM mult_mult WHERE id = {row['id']};")
+            conn.commit()
+            cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_series AUTO_INCREMENT=1;""")
+            conn.commit()
+            conn.close()
+        elif films:
+            rows = get_films()
+            for row in rows:
+                cursor.execute(f"DELETE FROM mult_film WHERE id = {row['id']};")
+            conn.commit()
+            cursor.execute("""ALTER TABLE mult_seriesfilms AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_film AUTO_INCREMENT=1;""")
+            conn.commit()
+            conn.close()
     except Error:
         print(Error)
 
@@ -124,6 +148,44 @@ def export_series(item, id):
         conn = connect(read_db_config())
         cursor = conn.cursor()
         insert = f"""INSERT INTO mult_series (name_serie, href, name_id) VALUES ("{item[1]['name']}", "{item[1]['full_name']}", "{id}")"""
+        print(insert)
+        cursor.execute(insert)
+        conn.commit()
+    except mysql.connector.errors.DatabaseError as err:
+        print("Error: ", err)
+
+
+def export_film(k):
+    try:
+        for item in k:
+            conn = connect(read_db_config())
+            cursor = conn.cursor()
+            print(item['series'][0])
+            season = item['detail'][0]['season']-1
+            description = item['detail'][0]['description'][season]
+            description = str(description).replace('"', '')
+            insert = f"""INSERT INTO mult_film (country, description, filmtype, img, name, seasons, unformated_name, year) VALUES ("{item['detail'][0]['country']}", "{description}", "{item['detail'][0]['type']}", "{item['detail'][0]['img']}", "{item['detail'][0]['name'].replace('"', '')}", "{item['detail'][0]['seasons']}", "{item['directory']}", "{item['detail'][0]['year']}")"""
+            print(insert)
+            cursor.execute(insert)
+            conn.commit()
+            for serie in item['series']:
+                into_series = f"""SELECT "{item['detail'][0]['name'].replace('"', '')}", id FROM mult_film WHERE name="{item['detail'][0]['name'].replace('"', '')}";"""
+                print(into_series)
+                cursor.execute(into_series)
+                rows = cursor.fetchall()
+                for row in rows:
+                    print(f"{row}")
+                export_series_film(serie, rows[0][1])
+            conn.close()
+    except mysql.connector.errors.DatabaseError as err:
+        print("Error: ", err)
+
+
+def export_series_film(item, id):
+    try:
+        conn = connect(read_db_config())
+        cursor = conn.cursor()
+        insert = f"""INSERT INTO mult_seriesfilms (name_serie, href, name_id) VALUES ("{item['name']}", "{item['full_name']}", "{id}")"""
         print(insert)
         cursor.execute(insert)
         conn.commit()

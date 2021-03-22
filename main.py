@@ -1,3 +1,4 @@
+import sys
 import os
 import shiki_parcer as parcer
 import Database
@@ -61,8 +62,11 @@ def check_files_mkv_mult():
     return mults
 
 
-def export(mults):
-    Database.export_mult(mults)
+def export(mults, i):
+    if i:
+        Database.export_mult(mults)
+    else:
+        Database.export_film(mults)
 
 
 def check_files_mkv_film():
@@ -109,6 +113,7 @@ def check_files_mkv_film():
                           'series': series,
                           'detail': kinopoisk_parcer.Film_parse(name)})
         i+=1
+    return films
 
 
 """def files_check():
@@ -160,7 +165,7 @@ def check_files_mkv_film():
     #f.close()"""
 
 
-def find_new():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
+def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
     series = Database.get_mults()
     os.system("find /srv/hp/Downloads/films -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
@@ -241,6 +246,30 @@ def remove(k):
 # parce("Sword+Art+Online+Alicization+-+War+of+Underworld+2nd+Season")
 
 #Database.drop()
-find_new()
+#find_new()
 #export(check_files_mkv_mult())
 #Database.get_mults()
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        param_name = sys.argv[1]
+        param_name2 = sys.argv[2]
+        print(param_name2)
+        if (param_name == "--new" or param_name == "-n") and (param_name2 == "--mults" or param_name2 == "-m"):
+            find_new_mult()
+        elif (param_name == "--new" or param_name == "-n") and (param_name2 == "--films" or param_name2 == "-f"):
+            Database.drop(films=True)
+            export(check_files_mkv_film(), False)
+        elif param_name == "--drop" or param_name == "-d":
+            Database.drop()
+            export(check_files_mkv_mult(), True)
+        elif param_name == "--help" or param_name == "-h":
+            print("-n, --new для поиска новых серий")
+            print("-d, --drop для сброса базы данных и нового сканирования")
+            print("-h, --help для отображения помощи")
+        elif param_name == "--new" or param_name == "-n":
+            print("Необходим дополнительный параметр -f или -m")
+        else:
+            print("Ошибка в параметрах. Для вывода справки используйте параметр -h")
+    else:
+        print("Необходим параметр")

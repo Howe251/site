@@ -71,14 +71,14 @@ def Film_parse(title):
                       'description': description})
         return films
     else:
-        return {'name': title,
+        return ([{'name': title,
                 'country': 'Нет данных',
-                'seasons': '0',
-                'season': '0',
+                'seasons': '1',
+                'season': 1,
                 'type': 'Нет данных',
                 'year': '0',
                 'img': 'Нет данных',
-                'description': 'Нет данных'}
+                'description': [{"Нет данных"},]},])
 
 
 
