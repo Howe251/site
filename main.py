@@ -253,7 +253,10 @@ def remove(k):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         param_name = sys.argv[1]
-        param_name2 = sys.argv[2]
+        if len(sys.argv):
+            param_name2 = sys.argv[2]
+        else:
+            param_name2 = ""
         print(param_name2)
         if (param_name == "--new" or param_name == "-n") and (param_name2 == "--mults" or param_name2 == "-m"):
             find_new_mult()
