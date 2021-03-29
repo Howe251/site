@@ -11,15 +11,12 @@ serial = False
 
 def find_series_mult(k, i, mult):
     print(k[i])
-    print(k[i].count('/'))
     if mult in k[i]: #playlist.index(k[i][0:k[i].find('/')]) == 0:
         directory = k[i].replace(mult, '')
-        if k[i].count('/') > 6:
+        if k[i].count('/') > 5:
             serial = True
             pathid = directory.find('/')
             path = directory[0:pathid]
-            print(path)
-            print(directory[0:pathid].replace(".", " "))
             name = remove(directory[0:pathid].replace(".", " "))
         else:
             path = directory
@@ -31,7 +28,8 @@ def find_series_mult(k, i, mult):
                 seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/')+1::]
                 nameofseria = remove(seria)
                 series.append({'name': nameofseria,
-                               'full_name': seria})
+                               'full_name': seria,
+                               'directory': path})
                 print(seria)
                 if path not in k[i+1]:
                     break
@@ -40,15 +38,16 @@ def find_series_mult(k, i, mult):
             seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/') + 1::]
             nameofseria = remove(seria)
             series.append({'name': nameofseria,
-                           'full_name': seria})
+                           'full_name': seria,
+                           'directory': path})
             print(seria)
     return name, series, path, i
 
 
 def check_files_mkv_mult():
-    os.system("find /srv/hp/Downloads/films -name *.mkv > playlist.txt")
+    os.system("find /disk1/Downloads/films -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
-    mult = "/srv/hp/Downloads/films/Мультики/"
+    mult = "/disk1/Downloads/films/Мультики/"
     k = [line[:-1] for line in k]
     i = 0
     while i < len(k):
@@ -70,20 +69,19 @@ def export(mults, i):
 
 
 def check_files_mkv_film():
-    os.system("find /srv/hp/Downloads/films -name *.mkv > playlist.txt")
+    os.system("find /disk1/Downloads/films -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
-    film = "/srv/hp/Downloads/films/Фильмы/"
+    film = "/disk1/Downloads/films/Фильмы/"
     k = [line[:-1] for line in k]
     i = 0
     while i < len(k):
         if film in k[i]:
             directory = k[i].replace(film, '')
-            if k[i].count('/') > 6:
+            if k[i].count('/') > 5:
                 serial = True
                 pathid = directory.find('/')
                 path = directory[0:pathid]
                 print(path)
-                print(directory[0:pathid].replace(".", " "))
                 name = directory[0:pathid].replace("_", " ")
                 name = remove(name.replace(".", " "))
             else:
@@ -117,8 +115,8 @@ def check_files_mkv_film():
 
 
 """def files_check():
-    # os.system("find /srv/hp/Downloads/films -name *.mkv -printf '%f\n'> playlist.txt")
-    os.system("find /srv/hp/Downloads/films/ -type d -maxdepth 2 -printf '%f\n'> playlist.txt")
+    # os.system("find /disk1/Downloads/films -name *.mkv -printf '%f\n'> playlist.txt")
+    os.system("find /disk1/Downloads/films/ -type d -maxdepth 2 -printf '%f\n'> playlist.txt")
     f = open("playlist.txt", "r")
     k = f.readlines()
     k = [line[:-1] for line in k]
@@ -167,9 +165,9 @@ def check_files_mkv_film():
 
 def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
     series = Database.get_mults()
-    os.system("find /srv/hp/Downloads/films -name *.mkv > playlist.txt")
+    os.system("find /disk1/Downloads/films -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
-    mult = "/srv/hp/Downloads/films/Мультики/"
+    mult = "/disk1/Downloads/films/Мультики/"
     k = [line[:-1] for line in k]
     i = 0
     mm = []
@@ -206,9 +204,7 @@ def remove(k):
     if linest[0] in k or linest[3] in k:
         while restart:
             string = k[k.find(linest[0]):k.find(linest[1]) + 1]
-            print(string)
             string2 = k[k.find(linest[2]):k.find(linest[3]) + 1]
-            print(string2)
             k = k.replace(string, "")
             k = k.replace(string2, "")
             k = k.strip()
@@ -231,13 +227,11 @@ def remove(k):
             # er = k.index(word)
             # re_ = re.compile(r'{}'.format(word))
             # k[k.index(word)] = re.sub(re_, '', k[k.index(word)])
-            print(k)
 
     """for idx, i in enumerate(k):
         if len(k[idx]) != 0:
             k[idx] += "\n"""
     return k
-
 
 
 # connect(read_db_config())
@@ -252,25 +246,24 @@ def remove(k):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        param_name = sys.argv[1]
-        if len(sys.argv) > 2:
-            param_name2 = sys.argv[2]
-        else:
-            param_name2 = ""
-        print(param_name2)
-        if (param_name == "--new" or param_name == "-n") and (param_name2 == "--mults" or param_name2 == "-m"):
+        #if (param_name == "--new" or param_name == "-n") and (param_name2 == "--mults" or param_name2 == "-m"):
+        if ("--new" in sys.argv or "-n" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             find_new_mult()
-        elif (param_name == "--new" or param_name == "-n") and (param_name2 == "--films" or param_name2 == "-f"):
+        elif ("--new" in sys.argv or "-n" in sys.argv) and ("--films" in sys.argv or "-f" in sys.argv):
             Database.drop(films=True)
             export(check_files_mkv_film(), False)
-        elif param_name == "--drop" or param_name == "-d":
-            Database.drop()
+        elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
+            Database.drop(mults=True)
             export(check_files_mkv_mult(), True)
-        elif param_name == "--help" or param_name == "-h":
-            print("-n, --new для поиска новых серий")
-            print("-d, --drop для сброса базы данных и нового сканирования")
-            print("-h, --help для отображения помощи")
-        elif param_name == "--new" or param_name == "-n":
+        elif "--drop" in sys.argv or "-d" in sys.argv:
+            Database.drop(True, True)
+            export(check_files_mkv_mult(), True)
+            export(check_files_mkv_film(), False)
+        elif "--help" in sys.argv or "-h" in sys.argv:
+            print("-n, --new для поиска новых серий, c дополнительным параметром -f для фильмов и -m для мультиков\n"
+                  "-d, --drop для сброса базы данных и нового сканирования\n"
+                  "-h, --help для отображения помощи")
+        elif "--new" in sys.argv or "-n" in sys.argv:
             print("Необходим дополнительный параметр -f или -m")
         else:
             print("Ошибка в параметрах. Для вывода справки используйте параметр -h")

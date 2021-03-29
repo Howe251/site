@@ -75,8 +75,7 @@ def drop(films=False, mults=False):
             cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=1;""")
             cursor.execute("""ALTER TABLE mult_series AUTO_INCREMENT=1;""")
             conn.commit()
-            conn.close()
-        elif films:
+        if films:
             rows = get_films()
             for row in rows:
                 cursor.execute(f"DELETE FROM mult_film WHERE id = {row['id']};")
@@ -84,8 +83,9 @@ def drop(films=False, mults=False):
             cursor.execute("""ALTER TABLE mult_seriesfilms AUTO_INCREMENT=1;""")
             cursor.execute("""ALTER TABLE mult_film AUTO_INCREMENT=1;""")
             conn.commit()
-            conn.close()
+        conn.close()
     except Error:
+        conn.close()
         print(Error)
 
 
@@ -132,13 +132,22 @@ def export_mult(k):
             cursor.execute(insert)
             conn.commit()
             for serie in enumerate(item['series']):
-                into_series = f"SELECT '{item['detail']['name']}', id FROM mult_mult WHERE name='{item['detail']['name']}';"
+
+                into_series = f"SELECT unformated_name, id FROM mult_mult WHERE name in " \
+                              f"(SELECT '{item['detail']['name']}' " \
+                              f"FROM mult_mult GROUP BY name HAVING COUNT(*) > 1) ORDER BY id;"
                 print(into_series)
                 cursor.execute(into_series)
                 rows = cursor.fetchall()
-                for row in rows:
-                    print(f"{row}")
-                export_series(serie, rows[0][1])
+                if len(rows) > 1:
+                    for row in rows:
+                        if serie[1]['directory'] == row[0]:
+                            export_series(serie, row[1])
+                else:
+                    into_series = f"SELECT unformated_name, id FROM mult_mult WHERE name='{item['detail']['name']}';"
+                    cursor.execute(into_series)
+                    rows = cursor.fetchall()
+                    export_series(serie, rows[0][1])
     except mysql.connector.errors.DatabaseError as err:
         print("Error: ", err)
 
