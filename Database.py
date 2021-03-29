@@ -65,10 +65,6 @@ def drop(films=False, mults=False):
     try:
         if mults:
             rows = get_mults()
-            cursor.execute("""DELETE FROM mults;""")
-            conn.commit()
-            cursor.execute("""ALTER TABLE mults AUTO_INCREMENT=1;""")
-            conn.commit()
             for row in rows:
                 cursor.execute(f"DELETE FROM mult_mult WHERE id = {row['id']};")
             conn.commit()
