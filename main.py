@@ -244,6 +244,9 @@ if __name__ == "__main__":
         elif (sys.argv.count('-d') or sys.argv.count('--drop')) > 0 and (sys.argv.count('-m') or sys.argv.count('--mults')) > 0:
             Database.drop(mults=True)
             export(check_files_mkv_mult(), True)
+        elif (sys.argv.count('-d') or sys.argv.count('--drop')) > 0 and (sys.argv.count('-f') or sys.argv.count('--films')) > 0:
+            Database.drop(films=True)
+            export(check_files_mkv_film(), False)
         elif (sys.argv.count('-d') or sys.argv.count('--drop')) > 0 and len(sys.argv) < 3:
             Database.drop(True, True)
             export(check_files_mkv_mult(), True)
