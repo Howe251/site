@@ -68,8 +68,12 @@ Extended
 Edition
 Hybrid
 AVC
+BDRIP
+FLAC-DECAY
 BD
 mkv
 DNSP
 by AKTEP
 web-dl
+надписи
+Надписи

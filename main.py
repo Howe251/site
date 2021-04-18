@@ -234,28 +234,36 @@ def remove(k):
     return k
 
 
+# connect(read_db_config())
+# files_check()
+# search()
+# parce("Sword+Art+Online+Alicization+-+War+of+Underworld+2nd+Season")
+
+#Database.drop()
+#find_new()
+#export(check_files_mkv_mult())
+#Database.get_mults()
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        if (sys.argv.count('-n') or sys.argv.count('--new')) > 0 and (sys.argv.count('-m') or sys.argv.count('--mults')) > 0:
+        #if (param_name == "--new" or param_name == "-n") and (param_name2 == "--mults" or param_name2 == "-m"):
+        if ("--new" in sys.argv or "-n" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             find_new_mult()
-        elif (sys.argv.count('-n') or sys.argv.count('--new')) > 0 and (sys.argv.count('-f') or sys.argv.count('--films')) > 0:
+        elif ("--new" in sys.argv or "-n" in sys.argv) and ("--films" in sys.argv or "-f" in sys.argv):
             Database.drop(films=True)
             export(check_files_mkv_film(), False)
-        elif (sys.argv.count('-d') or sys.argv.count('--drop')) > 0 and (sys.argv.count('-m') or sys.argv.count('--mults')) > 0:
+        elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             Database.drop(mults=True)
             export(check_files_mkv_mult(), True)
-        elif (sys.argv.count('-d') or sys.argv.count('--drop')) > 0 and (sys.argv.count('-f') or sys.argv.count('--films')) > 0:
-            Database.drop(films=True)
-            export(check_files_mkv_film(), False)
-        elif (sys.argv.count('-d') or sys.argv.count('--drop')) > 0 and len(sys.argv) < 3:
+        elif "--drop" in sys.argv or "-d" in sys.argv:
             Database.drop(True, True)
             export(check_files_mkv_mult(), True)
             export(check_files_mkv_film(), False)
-        elif '--help' in sys.argv or '-h' in sys.argv:
+        elif "--help" in sys.argv or "-h" in sys.argv:
             print("-n, --new для поиска новых серий, c дополнительным параметром -f для фильмов и -m для мультиков\n"
                   "-d, --drop для сброса базы данных и нового сканирования\n"
                   "-h, --help для отображения помощи")
-        elif '--new' in sys.argv or '-n' in sys.argv:
+        elif "--new" in sys.argv or "-n" in sys.argv:
             print("Необходим дополнительный параметр -f или -m")
         else:
             print("Ошибка в параметрах. Для вывода справки используйте параметр -h")

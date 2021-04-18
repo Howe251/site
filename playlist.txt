@@ -321,13 +321,43 @@
 /disk1/Downloads/films/Мультики/Magia Record Mahou Shoujo Madoka Magica Gaiden/Magia Record Mahou Shoujo Madoka Magica Gaiden - 13.mkv
 /disk1/Downloads/films/Мультики/Magia Record Mahou Shoujo Madoka Magica Gaiden/Magia Record Mahou Shoujo Madoka Magica Gaiden - 05.mkv
 /disk1/Downloads/films/Мультики/Magia Record Mahou Shoujo Madoka Magica Gaiden/Magia Record Mahou Shoujo Madoka Magica Gaiden - 10.mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 08 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 10 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 03 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 01 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 20 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 17 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 11 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 19 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 15 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 18 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 13 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 12 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 06 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 21 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 16 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 02 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 04 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 05 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 07 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 09 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 14 [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/Bonus/Extra/[Kuroi-raws] Hyouka (PV2) [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/Bonus/Extra/[Kuroi-raws] Hyouka (CM) [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/Bonus/Extra/[Kuroi-raws] Hyouka (PV1) [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/Bonus/NC/[Kuroi-raws] Hyouka (Creditless OP&ED 2) [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/Bonus/NC/[Kuroi-raws] Hyouka (Creditless OP&ED 1) [BDrip 1920x1080 x264 FLAC].mkv
+/disk1/Downloads/films/Мультики/Hyouka [BDRip] [1080p]/[Kuroi-raws] Hyouka 22 [BDrip 1920x1080 x264 FLAC].mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e08.mkv
+/disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e09.mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e05.mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e02.mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e03.mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e07.mkv
+/disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e11.mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e06.mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e04.mkv
+/disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e10.mkv
 /disk1/Downloads/films/Мультики/Dr Stone S02 AniPlague/[AniPlague] Dr. Stone s02e01.mkv
 /disk1/Downloads/films/Мультики/[Crunchyroll] Re.Zero - 2nd Season [WEBRip 1080p x264 AAC]/[Crunchyroll] Re.Zero - 2nd Season - 06 [WEBRip 1080p x264 AAC].mkv
 /disk1/Downloads/films/Мультики/[Crunchyroll] Re.Zero - 2nd Season [WEBRip 1080p x264 AAC]/[Crunchyroll] Re.Zero - 2nd Season - 05 [WEBRip 1080p x264 AAC].mkv
@@ -536,6 +566,7 @@
 /disk1/Downloads/films/Фильмы/The.Flash.S06.1080p.WEB-DL.Rus.Eng.EniaHD/The.Flash.S06E05.Kiss.Kiss.Breach.Breach.1080p.WEB-DL.Rus.Eng.EniaHD.mkv
 /disk1/Downloads/films/Фильмы/[lev99] Avatar 2009 (Special Edition Re-release Cut) [BDrip 1920x1080 x264 AAC].mkv
 /disk1/Downloads/films/Фильмы/Пираты Карибского моря Сундук мертвеца - Pirates of the Caribbean Dead Man's Chest.BluRay-REMUX.mkv
+/disk1/Downloads/films/Фильмы/The_Falcon_and_the_Winter_Soldier_S01_2021_WEB-DL_1080p_by_Dalemake/The_Falcon_and_the_Winter_Soldier_S01_E03_2021_WEB-DL_1080p_by_Dalemake.mkv
 /disk1/Downloads/films/Фильмы/The.Lord.of.the.Rings-The.Two.Towers.2002.Blu-ray.Extended.1080p.AVC.Rus.Eng.mkv
 /disk1/Downloads/films/Фильмы/Stranger.Things.S03.720p.DUB/Stranger.Things.S03E01.Chapter.One.Suzie.Do.You.Copy.720p.mkv
 /disk1/Downloads/films/Фильмы/Stranger.Things.S03.720p.DUB/Stranger.Things.S03E08.Chapter.Eight.The.Battle.of.Starcourt.720p.mkv
