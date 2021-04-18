@@ -7,11 +7,12 @@ import kinopoisk_parcer
 mults = []
 films = []
 serial = False
+scanpath = "/disk1/Downloads/films"
 
 
 def find_series_mult(k, i, mult):
     print(k[i])
-    if mult in k[i]: #playlist.index(k[i][0:k[i].find('/')]) == 0:
+    if mult in k[i]:
         directory = k[i].replace(mult, '')
         if k[i].count('/') > 5:
             serial = True
@@ -45,7 +46,7 @@ def find_series_mult(k, i, mult):
 
 
 def check_files_mkv_mult():
-    os.system("find /disk1/Downloads/films -name *.mkv > playlist.txt")
+    os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
     mult = "/disk1/Downloads/films/Мультики/"
     k = [line[:-1] for line in k]
@@ -61,6 +62,49 @@ def check_files_mkv_mult():
     return mults
 
 
+def find_subs_mult():
+    os.system(f"find {scanpath} -name *.ass > subs.txt")
+    k = open("subs.txt", "r").readlines()
+    mult = "/disk1/Downloads/films/Мультики/"
+    k = [line[:-1] for line in k]
+    i = 0
+    subs = []
+    print(k[i])
+    while i < len(k):
+        if mult in k[i]:
+            directory = k[i].replace(mult, '')
+            if k[i].count('/') > 6:
+                pathid = directory.find('/')
+                subdir = directory[pathid+1:directory.find('/', pathid+1)]
+                path = directory[0:pathid]
+                if subdir.find("[") == -1:
+                    autor = directory[directory.rfind(subdir):directory.rfind("/")].replace(subdir+"/", "")
+                    print(autor)
+                else:
+                    autor = subdir[subdir.find("[") + 1:subdir.find("]")]
+            while path+"/"+subdir in k[i] and i < len(k):
+                subid = k[i].rfind("/")
+                subtitle = k[i][subid+1::]
+                nameofsub = remove(subtitle.replace(".ass", ""))
+                full_path = k[i].replace(mult+path, "")
+                if len(autor) == 0:
+                    autor = "Нету"
+                subs.append({'name': nameofsub,
+                             'autor': autor,
+                             'full_name': subtitle,
+                             'directory': path,
+                             'full_path': full_path})
+                print(subtitle)
+                if i+1 < len(k):
+                    if path+"/"+subdir not in k[i+1]:
+                        break
+                else:
+                    break
+                i+=1
+        i+=1
+    return subs
+
+
 def export(mults, i):
     if i:
         Database.export_mult(mults)
@@ -69,7 +113,7 @@ def export(mults, i):
 
 
 def check_files_mkv_film():
-    os.system("find /disk1/Downloads/films -name *.mkv > playlist.txt")
+    os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
     film = "/disk1/Downloads/films/Фильмы/"
     k = [line[:-1] for line in k]
@@ -114,58 +158,9 @@ def check_files_mkv_film():
     return films
 
 
-"""def files_check():
-    # os.system("find /disk1/Downloads/films -name *.mkv -printf '%f\n'> playlist.txt")
-    os.system("find /disk1/Downloads/films/ -type d -maxdepth 2 -printf '%f\n'> playlist.txt")
-    f = open("playlist.txt", "r")
-    k = f.readlines()
-    k = [line[:-1] for line in k]
-    f.close()
-    linest = ("(", ")", "[", "]")
-    # print(k[2])
-    untuched = k
-    k = remove(k)
-    for idx, i in enumerate(k):
-        i = i.replace(".", " ")
-        restart = True
-        if linest[0] in i or linest[3] in i:
-            while restart:
-                string = i[i.find(linest[0]):i.find(linest[1]) + 1]
-                print(string)
-                string2 = i[i.find(linest[2]):i.find(linest[3]) + 1]
-                print(string2)
-                # print(str(k).find(linest, lineen))
-                i = i.replace(string, "")
-                i = i.replace(string2, "")
-                i = i.lstrip()
-                k[idx] = i
-                if i.find(linest[0]) == -1 and i.find(linest[3]) == -1:
-                    restart = False
-    #for id, item in enumerate(k):
-    #    if len(item) != 0:
-    #        playlist.append({'name': item, 'unformated_name': untuched[id]})
-    #untuched.clear()
-    for id, item in enumerate(k):
-        if len(item) != 0:
-            #print(parcer.search(params={'search': item.strip().replace(' ', '+')}))
-            Database.export_mult(parcer.parce(params={'search': item.strip().replace(' ', '+')}), untuched[id])
-    #f = open("playlist.txt", "w+")
-    #f.writelines(k)
-    y = 2
-    film = False
-    while y < len(k):
-        print(k[y])
-        if len(k[y]) == 0:
-            film = True
-        if not film:
-            #Database.export(parcer.parce(params={'search': k[y].replace(' ', '+')}))
-            y += 1
-    #f.close()"""
-
-
 def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
     series = Database.get_mults()
-    os.system("find /disk1/Downloads/films -name *.mkv > playlist.txt")
+    os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
     mult = "/disk1/Downloads/films/Мультики/"
     k = [line[:-1] for line in k]
@@ -184,7 +179,6 @@ def find_new_mult():  # Делаем запрос к БД и ищем совпа
                 for ser_title_local in title_local['series']:
                     if ser_title_local['full_name'] in [ser_title_BD[0] for ser_title_BD in title_BD['serie_name']]:
                         pass
-                        # print(ser_title_local[0], " --> ", "ЕСТЬ")
                     else:
                         print(ser_title_local['full_name'], " --> ", "НЕТУ")
                         ser.append({'name': ser_title_local['name'],
@@ -211,42 +205,18 @@ def remove(k):
             if k.find(linest[0]) == -1 and k.find(linest[3]) == -1:
                 restart = False
     z = open("forbidden.txt", "r")
-    # words = z.readlines()
     words = [line[:-1] for line in z]
-    # words = z.readlines().splitlines()
     z.close()
-    '''for idx, i in k:
-        if i in words:
-            k[idx] = i.replace(words, "")
-    z.close()'''
     for idx, word in enumerate(words):
         if word in k:
             k = k.replace(word, "").strip()
             if len(k) == 0:
                 break
-            # er = k.index(word)
-            # re_ = re.compile(r'{}'.format(word))
-            # k[k.index(word)] = re.sub(re_, '', k[k.index(word)])
-
-    """for idx, i in enumerate(k):
-        if len(k[idx]) != 0:
-            k[idx] += "\n"""
     return k
 
 
-# connect(read_db_config())
-# files_check()
-# search()
-# parce("Sword+Art+Online+Alicization+-+War+of+Underworld+2nd+Season")
-
-#Database.drop()
-#find_new()
-#export(check_files_mkv_mult())
-#Database.get_mults()
-
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        #if (param_name == "--new" or param_name == "-n") and (param_name2 == "--mults" or param_name2 == "-m"):
         if ("--new" in sys.argv or "-n" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             find_new_mult()
         elif ("--new" in sys.argv or "-n" in sys.argv) and ("--films" in sys.argv or "-f" in sys.argv):
@@ -265,6 +235,9 @@ if __name__ == "__main__":
                   "-h, --help для отображения помощи")
         elif "--new" in sys.argv or "-n" in sys.argv:
             print("Необходим дополнительный параметр -f или -m")
+        elif "-s" in sys.argv:
+            Database.drop(subs=True)
+            Database.export_subtitles(find_subs_mult())
         else:
             print("Ошибка в параметрах. Для вывода справки используйте параметр -h")
     else:
