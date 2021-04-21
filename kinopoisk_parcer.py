@@ -9,7 +9,6 @@ def translate(params):
     translation = translator.translate(text, dest='ru')
     print(f"{translation.origin} ({translation.src}) --> {translation.text} ({translation.dest})")
     text = translation.text
-    pattern = '[А-Я]'
     i = 1
     while i < len(text)-1:
         if text[i+1].isupper():
@@ -18,6 +17,13 @@ def translate(params):
         i+=1
     params['search'] = text
     return params
+
+
+def imgResize(movie):
+    img = movie['cover url']
+    img = img[0:img.rfind("@")+1]+img[-4::]
+    movie['cover url'] = img
+    return movie
 
 
 def Film_parse(title):
@@ -29,9 +35,6 @@ def Film_parse(title):
         season = int(title[match.start()+1:match.end()])
         title = title[0:-4]
         print(season)
-    match = re.search(r'\d{4}', title)
-    #if match:
-    #    title = title[0:match.start()]+title[match.end()::].strip()
     ia = IMDb()
     print(title)
     search = ia.search_movie(title=title)
@@ -45,6 +48,7 @@ def Film_parse(title):
             print(search[0].movieID)
             movie = ia.get_movie(search[0].movieID)
         print(movie['original title'])
+        imgResize(movie)
         if movie['kind'] == 'tv series' and 'plot' in movie:
             seasons = movie['number of seasons']
             description = movie['plot'][season - 1]
@@ -79,7 +83,5 @@ def Film_parse(title):
                 'year': '0',
                 'img': 'Нет данных',
                 'description': [{"Нет данных"},]},])
-
-
 
 # print(Film_parse("Avatar 2009"))

@@ -28,9 +28,11 @@ def find_series_mult(k, i, mult):
             while path in k[i]:
                 seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/')+1::]
                 nameofseria = remove(seria)
+                full_path = k[i].replace(mult, "")
                 series.append({'name': nameofseria,
                                'full_name': seria,
-                               'directory': path})
+                               'directory': path,
+                               'full_path': full_path})
                 print(seria)
                 if path not in k[i+1]:
                     break
@@ -38,9 +40,11 @@ def find_series_mult(k, i, mult):
         else:
             seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/') + 1::]
             nameofseria = remove(seria)
+            full_path = k[i].replace(mult, "")
             series.append({'name': nameofseria,
                            'full_name': seria,
-                           'directory': path})
+                           'directory': path,
+                           'full_path': full_path})
             print(seria)
     return name, series, path, i
 
@@ -138,8 +142,10 @@ def check_files_mkv_film():
                 while path in k[i]:
                     seria = k[i].replace(film, '')[k[i].replace(film, '').find('/') + 1::]
                     nameofseria = remove(seria)
+                    full_path = k[i].replace(film, "")
                     series.append({'name': nameofseria,
-                                   'full_name': seria})
+                                   'full_name': seria,
+                                   'full_path': full_path})
                     print(seria)
                     if path not in k[i + 1]:
                         break
@@ -147,8 +153,10 @@ def check_files_mkv_film():
             else:
                 seria = k[i].replace(film, '')[k[i].replace(film, '').find('/') + 1::]
                 nameofseria = remove(seria)
+                full_path = k[i].replace(film, "")
                 series.append({'name': nameofseria,
-                               'full_name': seria})
+                               'full_name': seria,
+                               'full_path': full_path})
                 print(seria)
             films.append({'name': name,
                           'directory': path,
@@ -219,25 +227,26 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         if ("--new" in sys.argv or "-n" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             find_new_mult()
-        elif ("--new" in sys.argv or "-n" in sys.argv) and ("--films" in sys.argv or "-f" in sys.argv):
+        elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--films" in sys.argv or "-f" in sys.argv):
             Database.drop(films=True)
             export(check_files_mkv_film(), False)
         elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             Database.drop(mults=True)
             export(check_files_mkv_mult(), True)
+        elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--subs" in sys.argv or "-s" in sys.argv):
+            Database.drop(subs=True)
+            Database.export_subtitles(find_subs_mult())
         elif "--drop" in sys.argv or "-d" in sys.argv:
-            Database.drop(True, True)
+            Database.drop(True, True, True)
             export(check_files_mkv_mult(), True)
             export(check_files_mkv_film(), False)
+            Database.export_subtitles(find_subs_mult())
         elif "--help" in sys.argv or "-h" in sys.argv:
-            print("-n, --new для поиска новых серий, c дополнительным параметром -f для фильмов и -m для мультиков\n"
+            print("-n, --new для поиска новых серий, c дополнительным параметром -m для мультиков, для фильмов -d -f\n"
                   "-d, --drop для сброса базы данных и нового сканирования\n"
                   "-h, --help для отображения помощи")
         elif "--new" in sys.argv or "-n" in sys.argv:
-            print("Необходим дополнительный параметр -f или -m")
-        elif "-s" in sys.argv:
-            Database.drop(subs=True)
-            Database.export_subtitles(find_subs_mult())
+            print("Необходим дополнительный параметр -m")
         else:
             print("Ошибка в параметрах. Для вывода справки используйте параметр -h")
     else:

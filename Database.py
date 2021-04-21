@@ -163,7 +163,7 @@ def export_series(item, id):
     try:
         conn = connect(read_db_config())
         cursor = conn.cursor()
-        insert = f"""INSERT INTO mult_series (name_serie, href, name_id) VALUES ("{item[1]['name']}", "{item[1]['full_name']}", "{id}")"""
+        insert = f"""INSERT INTO mult_series (name_serie, href, full_name, name_id) VALUES ("{item[1]['name']}", "{item[1]['full_path']}", "{item[1]['full_name']}", "{id}")"""
         print(insert)
         cursor.execute(insert)
         conn.commit()
@@ -204,7 +204,7 @@ def export_film(k):
             cursor.execute(insert)
             conn.commit()
             for serie in item['series']:
-                into_series = f"""SELECT "{item['detail'][0]['name'].replace('"', '')}", id FROM mult_film WHERE name="{item['detail'][0]['name'].replace('"', '')}";"""
+                into_series = f"""SELECT "{item['directory'].replace('"', '')}", id FROM mult_film WHERE unformated_name="{item['directory'].replace('"', '')}";"""
                 print(into_series)
                 cursor.execute(into_series)
                 rows = cursor.fetchall()
@@ -220,7 +220,7 @@ def export_series_film(item, id):
     try:
         conn = connect(read_db_config())
         cursor = conn.cursor()
-        insert = f"""INSERT INTO mult_seriesfilms (name_serie, href, name_id) VALUES ("{item['name']}", "{item['full_name']}", "{id}")"""
+        insert = f"""INSERT INTO mult_seriesfilms (name_serie, href, full_name, name_id) VALUES ("{item['name']}", "{item['full_path']}", "{item['full_name']}", "{id}")"""
         print(insert)
         cursor.execute(insert)
         conn.commit()
