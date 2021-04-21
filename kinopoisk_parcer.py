@@ -21,7 +21,11 @@ def translate(params):
 
 def imgResize(movie):
     img = movie['cover url']
-    img = img[0:img.rfind("@")+1]+img[-4::]
+    img_ap = img.rfind("@")+1
+    if not img_ap:
+        print("None @")
+        img_ap = img.rfind("._V")
+    img = img[0:img_ap]+img[-4::]
     movie['cover url'] = img
     return movie
 

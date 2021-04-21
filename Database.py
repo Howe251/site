@@ -135,7 +135,7 @@ def export_mult(k):
             conn = connect(read_db_config())
             cursor = conn.cursor()
             print(item['series'][0])
-            insert = f"INSERT INTO mult_mult (name, episodes, status, description, img, genre, unformated_name) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}')"
+            insert = f"INSERT INTO mult_mult (name, episodes, status, description, img_url, genre, unformated_name) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}')"
             print(insert)
             cursor.execute(insert)
             conn.commit()
@@ -199,7 +199,7 @@ def export_film(k):
             season = item['detail'][0]['season']-1
             description = item['detail'][0]['description'][season]
             description = str(description).replace('"', '')
-            insert = f"""INSERT INTO mult_film (country, description, filmtype, img, name, seasons, unformated_name, year) VALUES ("{item['detail'][0]['country']}", "{description}", "{item['detail'][0]['type']}", "{item['detail'][0]['img']}", "{item['detail'][0]['name'].replace('"', '')}", "{item['detail'][0]['seasons']}", "{item['directory']}", "{item['detail'][0]['year']}")"""
+            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year) VALUES ("{item['detail'][0]['country']}", "{description}", "{item['detail'][0]['type']}", "{item['detail'][0]['img']}", "{item['detail'][0]['name'].replace('"', '')}", "{item['detail'][0]['seasons']}", "{item['directory']}", "{item['detail'][0]['year']}")"""
             print(insert)
             cursor.execute(insert)
             conn.commit()
