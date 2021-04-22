@@ -9,6 +9,8 @@ BDRip
 CMRG
 x264-CMRG
 DDP5 1
+Remux-Talian-
+Bluray
 BluRay-REMUX
 AlexFilm
 TayTO

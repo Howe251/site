@@ -2,10 +2,8 @@ beautifulsoup4==4.9.3
 certifi==2020.12.5
 chardet==3.0.4
 configparser==5.0.1
-defusedxml==0.6.0
 future==0.18.2
 googletrans==3.1.0a0
-grab==0.6.41
 h11==0.9.0
 h2==3.2.0
 hpack==3.0.0
