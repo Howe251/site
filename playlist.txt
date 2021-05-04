@@ -246,6 +246,7 @@
 /disk1/Downloads/films/Мультики/[Henshin] K-ON! (BDrip)/[Henshin]_K-ON!_01_(BD_x264_1920x1080_FLAC).mkv
 /disk1/Downloads/films/Мультики/[Henshin] K-ON! (BDrip)/[Henshin]_K-ON!_03_(BD_x264_1920x1080_FLAC).mkv
 /disk1/Downloads/films/Мультики/[Henshin] K-ON! (BDrip)/[Henshin]_K-ON!_12_(BD_x264_1920x1080_FLAC).mkv
+/disk1/Downloads/films/Мультики/The.Emperor's.New.Groove.2000.1080p.BluRay.2xRus.Eng.HDCLUB-SbR.mkv
 /disk1/Downloads/films/Мультики/[Vivid-Asenshi] Violet Evergarden [1080p]/[Vivid-Asenshi] Violet Evergarden - 12v2 [704BC8EB].mkv
 /disk1/Downloads/films/Мультики/[Vivid-Asenshi] Violet Evergarden [1080p]/[Vivid-Asenshi] Violet Evergarden - 08v2 [E200A290].mkv
 /disk1/Downloads/films/Мультики/[Vivid-Asenshi] Violet Evergarden [1080p]/[Vivid-Asenshi] Violet Evergarden - 01v2 [05E4F451].mkv
@@ -259,6 +260,75 @@
 /disk1/Downloads/films/Мультики/[Vivid-Asenshi] Violet Evergarden [1080p]/[Vivid-Asenshi] Violet Evergarden - 06v2 [38236907].mkv
 /disk1/Downloads/films/Мультики/[Vivid-Asenshi] Violet Evergarden [1080p]/[Vivid-Asenshi] Violet Evergarden - 03v2 [219DC125].mkv
 /disk1/Downloads/films/Мультики/[Vivid-Asenshi] Violet Evergarden [1080p]/[Vivid-Asenshi] Violet Evergarden - 11v2 [4EA2C281].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[02]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[04]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[08]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[07]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[03]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[11]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[05]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[06]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Creditless/Noragami - ED ep.12 (BDRip 1920x1080 x264 FLAC).mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Creditless/Noragami - OP (BDRip 1920x1080 x264 FLAC).mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Creditless/Noragami - ED (BDRip 1920x1080 x264 FLAC).mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Creditless/Noragami - OPv2 (BDRip 1920x1080 x264 FLAC).mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/PV/PV1.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/PV/PV2.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/PV/PV3.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Menu/BD Menu Vol.5.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Menu/BD Menu Vol.1.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Menu/BD Menu Vol.3.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Menu/BD Menu Vol.6.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Menu/BD Menu Vol.2.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/Extra/Menu/BD Menu Vol.4.mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[10]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[12]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[09]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[AniDub]_Noragami_[BDRip_1080p]_[Ancord_and_JAM_and_Trina_D]/[AniDub]_Noragami_[01]_[BDRip_1080p_x264_AAC]_[Ancord_and_JAM_and_Trina_D].mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 07 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 03 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 10 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 22 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 16 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 19 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 12 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 36 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 18 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 30 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 37 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 34 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 08 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 14 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 15 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 17 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 11 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 28 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 20 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 25 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 26 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 33 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 05 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 27 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 29 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 13 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 32 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 06 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/Creditless OP-ED/[SOFCJ-Raws] Death Note OP - 02 [EP.20-37] (BDRip 1920x1080 x264 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/Creditless OP-ED/[SOFCJ-Raws] Death Note OP - 01 [EP.01-07] (BDRip 1920x1080 x264 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/Creditless OP-ED/[SOFCJ-Raws] Death Note OP - 01 [EP.12-19] (BDRip 1920x1080 x264 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/Creditless OP-ED/[SOFCJ-Raws] Death Note ED - 03 [EP.37] (BDRip 1920x1080 x264 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/Creditless OP-ED/[SOFCJ-Raws] Death Note ED - 01 [EP.01-19] (BDRip 1920x1080 x264 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/Creditless OP-ED/[SOFCJ-Raws] Death Note ED - 02 [EP.20-36] (BDRip 1920x1080 x264 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/Creditless OP-ED/[SOFCJ-Raws] Death Note OP - 01 [EP.08-11] (BDRip 1920x1080 x264 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 04 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 21 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 02 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 09 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 24 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 01 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 35 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 31 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
+/disk1/Downloads/films/Мультики/[SOFCJ-Raws] Death Note (BDRip 1920x1080 x264 10bit VFR FLAC)/[SOFCJ-Raws] Death Note - 23 (BDRip 1920x1080 x264 VFR 10bit FLAC).mkv
 /disk1/Downloads/films/Мультики/[M-KV2501] My Little Pony Equestria Girls Specials - Magical Movie Night [WEB-DL] [1080p].mkv
 /disk1/Downloads/films/Мультики/MLP EG FG Addon/Prequel Short - A Banner Day.mkv
 /disk1/Downloads/films/Мультики/MLP EG FG Addon/Prequel Short - All's Fair in Love and Friendship Games.mkv
@@ -516,6 +586,19 @@
 /disk1/Downloads/films/Мультики/[ReinForce] Gekijouban Violet Evergarden (BDRip 1920x804 x264 FLAC)/Extra/PV02.mkv
 /disk1/Downloads/films/Мультики/[ReinForce] Gekijouban Violet Evergarden (BDRip 1920x804 x264 FLAC)/Extra/PV01.mkv
 /disk1/Downloads/films/Мультики/[ReinForce] Gekijouban Violet Evergarden (BDRip 1920x804 x264 FLAC)/Extra/Menu/01.mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 08 (1080p) [925E4BA9].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 02 (1080p) [76E4112E].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 09 (1080p) [11517D6E].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 04 (1080p) [B9E6E18A].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 10 (1080p) [0A3AD2D5].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 06 (1080p) [9E80D601].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 05 (1080p) [E5623E5F].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 12 (1080p) [1F275BA4].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 03 (1080p) [6F6B29D3].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 07 (1080p) [920C632A].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 01 (1080p) [8539B48E].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 11 (1080p) [76F6B8DF].mkv
+/disk1/Downloads/films/Мультики/Yuru Camp S2/[SubsPlease] Yuru Camp S2 - 13 (1080p) [8FE8AEC0].mkv
 /disk1/Downloads/films/Мультики/Sayonara no asa ni yakusoku no hana o kazaro BDRip1080p.mkv
 /disk1/Downloads/films/Мультики/No Game No Life TV/[anti-raws]No Game No Life ep.10[BDRemux].mkv
 /disk1/Downloads/films/Мультики/No Game No Life TV/[anti-raws]No Game No Life ep.08[BDRemux].mkv
@@ -585,6 +668,7 @@
 /disk1/Downloads/films/Фильмы/The.Boys.S01.1080p.WEBRip.DDP5.1.TeamHD/The.Boys.S01E04.1080p.WEBRip.DDP5.1.TeamHD.mkv
 /disk1/Downloads/films/Фильмы/The.Boys.S01.1080p.WEBRip.DDP5.1.TeamHD/The.Boys.S01E03.1080p.WEBRip.DDP5.1.TeamHD.mkv
 /disk1/Downloads/films/Фильмы/The.Boys.S01.1080p.WEBRip.DDP5.1.TeamHD/The.Boys.S01E01.1080p.WEBRip.DDP5.1.TeamHD.mkv
+/disk1/Downloads/films/Фильмы/Gifted.2017.1080p.BluRay.Rus.Ukr.Eng.TeamHD-TayTO.mkv
 /disk1/Downloads/films/Фильмы/The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.x264.BDRip.1080p.Extended.Edition.Hybrid.mkv
 /disk1/Downloads/films/Фильмы/Sherlock.Holmes.2009.1080p.BluRay.DTS x264-Talian-.mkv
 /disk1/Downloads/films/Фильмы/Mank.2020.1080p.NF.WEB-DL.DDP5.1.x264-CMRG_Kyle.mkv

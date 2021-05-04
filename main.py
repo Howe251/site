@@ -168,9 +168,9 @@ def check_files_mkv_film():
 
 def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
     series = Database.get_mults()
-    os.system(f"find {scanpath} -name *.mkv > playlist.txt")
-    k = open("playlist.txt", "r").readlines()
     mult = "/disk1/Downloads/films/Мультики/"
+    os.system(f"find {mult} -name *.mkv > playlist.txt")
+    k = open("playlist.txt", "r").readlines()
     k = [line[:-1] for line in k]
     i = 0
     mm = []
@@ -233,6 +233,7 @@ if __name__ == "__main__":
         elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             Database.drop(mults=True)
             export(check_files_mkv_mult(), True)
+            Database.export_subtitles(find_subs_mult())
         elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--subs" in sys.argv or "-s" in sys.argv):
             Database.drop(subs=True)
             Database.export_subtitles(find_subs_mult())
