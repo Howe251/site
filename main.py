@@ -26,7 +26,7 @@ def find_series_mult(k, i, mult):
         series = []
         if serial:
             while path in k[i]:
-                seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/')+1::]
+                seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/') + 1::]
                 nameofseria = remove(seria)
                 full_path = k[i].replace(mult, "")
                 series.append({'name': nameofseria,
@@ -34,9 +34,9 @@ def find_series_mult(k, i, mult):
                                'directory': path,
                                'full_path': full_path})
                 print(seria)
-                if path not in k[i+1]:
+                if path not in k[i + 1]:
                     break
-                i+=1
+                i += 1
         else:
             seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/') + 1::]
             nameofseria = remove(seria)
@@ -62,7 +62,7 @@ def check_files_mkv_mult():
                           'directory': path,
                           'series': series,
                           'detail': parcer.parce(params={'search': name.replace(' ', '+')})})
-        i+=1
+        i += 1
     return mults
 
 
@@ -79,18 +79,18 @@ def find_subs_mult():
             directory = k[i].replace(mult, '')
             if k[i].count('/') > 6:
                 pathid = directory.find('/')
-                subdir = directory[pathid+1:directory.find('/', pathid+1)]
+                subdir = directory[pathid + 1:directory.find('/', pathid + 1)]
                 path = directory[0:pathid]
                 if subdir.find("[") == -1:
-                    autor = directory[directory.rfind(subdir):directory.rfind("/")].replace(subdir+"/", "")
+                    autor = directory[directory.rfind(subdir):directory.rfind("/")].replace(subdir + "/", "")
                     print(autor)
                 else:
                     autor = subdir[subdir.find("[") + 1:subdir.find("]")]
-            while path+"/"+subdir in k[i] and i < len(k):
+            while path + "/" + subdir in k[i] and i < len(k):
                 subid = k[i].rfind("/")
-                subtitle = k[i][subid+1::]
+                subtitle = k[i][subid + 1::]
                 nameofsub = remove(subtitle.replace(".ass", ""))
-                full_path = k[i].replace(mult+path, "")
+                full_path = k[i].replace(mult + path, "")
                 if len(autor) == 0:
                     autor = "Нету"
                 subs.append({'name': nameofsub,
@@ -99,14 +99,33 @@ def find_subs_mult():
                              'directory': path,
                              'full_path': full_path})
                 print(subtitle)
-                if i+1 < len(k):
-                    if path+"/"+subdir not in k[i+1]:
+                if i + 1 < len(k):
+                    if path + "/" + subdir not in k[i + 1]:
                         break
                 else:
                     break
-                i+=1
-        i+=1
+                i += 1
+        i += 1
     return subs
+
+
+def find_audio_mult():
+    audio = []
+    # os.system(f"find {scanpath} -name *.ass > subs.txt")
+    try:
+        for root, dirs, files in os.walk(f"{scanpath}/Мультики"):
+            for file in files:
+                if file.endswith(".mka") or file.endswith(".ac3"):
+                    autor = root[root.rfind("/")+1:]
+                    directory = root.replace(scanpath + "/Мультики/", "")
+                    audio.append({"name": remove(os.path.splitext(file)[0]),
+                                  "full_name": file,
+                                  "autor": autor,
+                                  "directory": directory[:directory.rfind("/")],
+                                  "full_path": os.path.join(root, file).replace(scanpath+"/Мультики/", "")})
+        return audio
+    except FileNotFoundError as e:
+        print("Нет такого файла или каталога:", str(e)[str(e).find("'"):str(e).rfind("'")+1])
 
 
 def export(mults, i):
@@ -162,9 +181,12 @@ def check_files_mkv_film():
                           'directory': path,
                           'series': series,
                           'detail': kinopoisk_parcer.Film_parse(name)})
-        i+=1
+        i += 1
     return films
 
+
+# TODO Сделать проверку на 3х разных сервисах что-бы избежать ошибки правильности названия
+#  (KinopoiskApi, IMDB, shikimori)
 
 def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
     series = Database.get_mults()
@@ -180,7 +202,7 @@ def find_new_mult():  # Делаем запрос к БД и ищем совпа
                    'series': ser,
                    'path': path})
         i += 1
-    ser = [{},]
+    ser = [{}, ]
     for title_local in mm:
         for title_BD in series:
             if title_BD['title_name'] == title_local['path']:
@@ -233,15 +255,20 @@ if __name__ == "__main__":
         elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             Database.drop(mults=True)
             export(check_files_mkv_mult(), True)
-            Database.export_subtitles(find_subs_mult())
+            Database.export_sub_audio(find_subs_mult(), "subs")
+            Database.export_sub_audio(find_audio_mult(), "audio")
         elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--subs" in sys.argv or "-s" in sys.argv):
             Database.drop(subs=True)
-            Database.export_subtitles(find_subs_mult())
+            Database.export_sub_audio(find_subs_mult(), "subs")
+        elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--audio" in sys.argv or "-a" in sys.argv):
+            Database.drop(audio=True)
+            Database.export_sub_audio(find_audio_mult(), "audio")
         elif "--drop" in sys.argv or "-d" in sys.argv:
-            Database.drop(True, True, True)
+            Database.drop(True, True, True, True)
             export(check_files_mkv_mult(), True)
             export(check_files_mkv_film(), False)
-            Database.export_subtitles(find_subs_mult())
+            Database.export_sub_audio(find_subs_mult(), "subs")
+            Database.export_sub_audio(find_audio_mult(), "audio")
         elif "--help" in sys.argv or "-h" in sys.argv:
             print("-n, --new для поиска новых серий, c дополнительным параметром -m для мультиков, для фильмов -d -f\n"
                   "-d, --drop для сброса базы данных и нового сканирования\n"

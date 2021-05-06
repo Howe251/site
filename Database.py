@@ -1,7 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
 from configparser import ConfigParser
-import shiki_parcer
 
 
 def read_db_config(filename='config.ini', section='mysql'):
@@ -51,6 +50,13 @@ def get_subs():
     return subs
 
 
+def get_audio():
+    conn = connect(read_db_config())
+    cursor = conn.cursor()
+    cursor.execute("SELECT name_audio, id FROM mult_audio")  # Список всех субтитров
+    subs = cursor.fetchall()
+    return subs
+
 def get_films():
     films = []
     conn = connect(read_db_config())
@@ -68,7 +74,7 @@ def get_films():
     return films
 
 
-def drop(films=False, mults=False, subs=False):
+def drop(films=False, mults=False, subs=False, audio=False):
     conn = connect(read_db_config())
     cursor = conn.cursor()
     try:
@@ -92,6 +98,10 @@ def drop(films=False, mults=False, subs=False):
             for row in get_subs():
                 cursor.execute(f"DELETE FROM mult_subs WHERE id = {row[1]};")
             cursor.execute("""ALTER TABLE mult_subs AUTO_INCREMENT=1;""")
+        if audio:
+            for row in get_audio():
+                cursor.execute(f"DELETE FROM mult_audio WHERE id = {row[1]};")
+            cursor.execute("""ALTER TABLE mult_audio AUTO_INCREMENT=1;""")
         conn.close()
     except Error:
         conn.close()
@@ -176,21 +186,23 @@ def export_series(item, id):
         print("Error: ", err)
 
 
-def export_subtitles(items):
+def export_sub_audio(items, type):
     try:
         conn = connect(read_db_config())
         cursor = conn.cursor()
-        i = 0
         for item in items:
             into_subs = f"SELECT name_serie, id, name_id FROM mult_series WHERE name_serie = '{item['name']}';"
             cursor.execute(into_subs)
             rows = cursor.fetchall()
             if len(rows) > 0:
-                i+=1
-                insert = f"""INSERT INTO mult_subs (name_sub, autor, href, name_id, mult_id) VALUES ("{item['name']}", "{item['autor']}", "{item['full_path']}", {rows[0][1]}, {rows[0][2]});"""
+                if type == "subs":
+                    insert = f"""INSERT INTO mult_subs (name_sub, autor, href, name_id, mult_id) VALUES ("{item['name']}", "{item['autor']}", "{item['full_path']}", {rows[0][1]}, {rows[0][2]});"""
+                elif type == "audio":
+                    insert = f"""INSERT INTO mult_audio (name_audio, autor, href, name_id, mult_id) VALUES ("{item['name']}", "{item['autor']}", "{item['full_path']}", {rows[0][1]}, {rows[0][2]});"""
                 print(insert)
                 cursor.execute(insert)
                 conn.commit()
+        conn.close()
     except mysql.connector.errors.DatabaseError as err:
         print("Error: ", err)
 
