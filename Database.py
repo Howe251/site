@@ -57,6 +57,7 @@ def get_audio():
     subs = cursor.fetchall()
     return subs
 
+
 def get_films():
     films = []
     conn = connect(read_db_config())
@@ -213,11 +214,11 @@ def export_film(k):
             conn = connect(read_db_config())
             cursor = conn.cursor()
             print(item['series'][0])
-            season = item['detail'][0]['season']-1
-            description = item['detail'][0]['description'][season]
+            #season = item['detail'][0]['season']-1
+            description = item['detail']['description']
             description = str(description).replace('"', '\\"')
             description = str(description).replace("'", "\\'")
-            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year) VALUES ("{item['detail'][0]['country']}", "{description}", "{item['detail'][0]['type']}", "{item['detail'][0]['img']}", "{item['detail'][0]['name'].replace('"', '')}", "{item['detail'][0]['seasons']}", "{item['directory']}", "{item['detail'][0]['year']}")"""
+            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year) VALUES ("{item['detail']['country']}", "{description}", "{item['detail']['type']}", "{item['detail']['img']}", "{item['detail']['name'].replace('"', '')}", "{item['detail']['seasons']}", "{item['directory']}", "{item['detail']['year']}")"""
             print(insert)
             cursor.execute(insert)
             conn.commit()

@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import kinopoisk_parcer
-from kinopoisk.movie import Movie
 
 URL = 'https://shikimori.one/animes/status/released'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
@@ -81,22 +80,6 @@ def search(params):
         print("Error")
 
 
-def try_repeat(func):
-    def wrapper(*args, **kwargs):
-        count = 10
-
-        while count:
-            try:
-                return func(*args, **kwargs)
-            except Exception as e:
-                print("Ошибка: Попытка поиска в IMDB")
-                kinopoisk_parcer.translate(*args, **kwargs)
-                print('Error:', e)
-                count -= 1
-    return wrapper
-
-
-@try_repeat
 def parce(params):
     url = search(params)
     html = get_html(url)
@@ -105,10 +88,37 @@ def parce(params):
     return title
 
 
+def find(params, tries=3):
+    for attempt in range(tries):
+        try:
+            #kinopoisk_parcer.translate(params)
+            name = params["search"]
+            title = kinopoisk_parcer.KinopoiskParse(name)
+            if not title:
+                raise IndexError
+            else:
+                return title
+        except IndexError:
+            if attempt < (tries - 1) and attempt < 1:
+                print("Ошибка! попытка перевода")
+                kinopoisk_parcer.translate(params)
+                name = params["search"]
+                try:
+                    title = kinopoisk_parcer.KinopoiskParse(name)
+                    return title
+                except IndexError:
+                    print("Ошибка поиска")
+            elif (tries - 1) > attempt >= 1:
+                try:
+                    print("Ошибка! попытка поиска на Shikimori")
+                    title = parce(params)
+                    return title
+                except AttributeError:
+                    file = open("error.txt", "a")
+                    file.write("Неудалось распознать " + params["search"] + "\n")
+                    file.close()
+                    print("На Shikimori этого нет")
 
-'''def parce():
-    g = Grab(log_file='out.html')
-    g.go('https://shikimori.one/animes', method='get')'''
 
 # params = None
 #parce(params={'search': 'DityaPogody'})

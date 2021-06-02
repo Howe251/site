@@ -61,7 +61,7 @@ def check_files_mkv_mult():
             mults.append({'name': name,
                           'directory': path,
                           'series': series,
-                          'detail': parcer.parce(params={'search': name.replace(' ', '+')})})
+                          'detail': parcer.find(params={'search': name.replace(' ', '+')})})
         i += 1
     return mults
 
@@ -180,13 +180,10 @@ def check_files_mkv_film():
             films.append({'name': name,
                           'directory': path,
                           'series': series,
-                          'detail': kinopoisk_parcer.Film_parse(name)})
+                          'detail': kinopoisk_parcer.tryKinopoisk(name)})
         i += 1
     return films
 
-
-# TODO Сделать проверку на 3х разных сервисах что-бы избежать ошибки правильности названия
-#  (KinopoiskApi, IMDB, shikimori)
 
 def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
     series = Database.get_mults()

@@ -5,6 +5,7 @@ V_trube
 by Dalemake
 x264-Talian-
 DTS
+DSNP
 BDRip
 CMRG
 x264-CMRG
@@ -39,6 +40,7 @@ HDTV
 DUB
 H264
 BD-Remux
+HDCLUB-SbR
 HDClub
 HDTVRip
 RG
