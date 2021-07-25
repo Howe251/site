@@ -153,7 +153,7 @@ def KinopoiskParse(title):
     episodes = 1
     for country in film['countries']:
         countries += country['country'] + " "
-    status = "Вышло "+film['year']
+    status = "Вышло "+str(film['year'])
     films = {'name': film['nameRu'],
              'country': countries.strip(),
              'seasons': seasons,

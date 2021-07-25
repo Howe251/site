@@ -7,14 +7,15 @@ import kinopoisk_parcer
 mults = []
 films = []
 serial = False
-scanpath = "/disk1/Downloads/films"
+scanpath = "/disk1"
+#/disk1/Downloads/films
 
 
 def find_series_mult(k, i, mult):
     print(k[i])
     if mult in k[i]:
         directory = k[i].replace(mult, '')
-        if k[i].count('/') > 5:
+        if k[i].count('/') > scanpath.count('/') + 2:
             serial = True
             pathid = directory.find('/')
             path = directory[0:pathid]
@@ -52,7 +53,7 @@ def find_series_mult(k, i, mult):
 def check_files_mkv_mult():
     os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
-    mult = "/disk1/Downloads/films/Мультики/"
+    mult = scanpath + "/Мультики/"
     k = [line[:-1] for line in k]
     i = 0
     while i < len(k):
@@ -69,7 +70,7 @@ def check_files_mkv_mult():
 def find_subs_mult():
     os.system(f"find {scanpath} -name *.ass > subs.txt")
     k = open("subs.txt", "r").readlines()
-    mult = "/disk1/Downloads/films/Мультики/"
+    mult = scanpath + "/Мультики/"
     k = [line[:-1] for line in k]
     i = 0
     subs = []
@@ -77,7 +78,7 @@ def find_subs_mult():
     while i < len(k):
         if mult in k[i]:
             directory = k[i].replace(mult, '')
-            if k[i].count('/') > 6:
+            if k[i].count('/') > scanpath.count('/') + 2:
                 pathid = directory.find('/')
                 subdir = directory[pathid + 1:directory.find('/', pathid + 1)]
                 path = directory[0:pathid]
@@ -138,13 +139,13 @@ def export(mults, i):
 def check_files_mkv_film():
     os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
-    film = "/disk1/Downloads/films/Фильмы/"
+    film = scanpath + "/Фильмы/"
     k = [line[:-1] for line in k]
     i = 0
     while i < len(k):
         if film in k[i]:
             directory = k[i].replace(film, '')
-            if k[i].count('/') > 5:
+            if k[i].count('/') > scanpath.count('/') + 2:
                 serial = True
                 pathid = directory.find('/')
                 path = directory[0:pathid]
@@ -187,7 +188,7 @@ def check_files_mkv_film():
 
 def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
     series = Database.get_mults()
-    mult = "/disk1/Downloads/films/Мультики/"
+    mult = scanpath + "/Мультики/"
     os.system(f"find {mult} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
     k = [line[:-1] for line in k]
