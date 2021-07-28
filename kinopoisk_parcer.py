@@ -98,7 +98,7 @@ def Film_parse(title):
                   'description': [{"Нет данных"}, ]}, ])
 
 
-def tryKinopoisk(title, tries=3):
+def tryKinopoisk(title, tries=4):
     for attempt in range(tries):
         try:
             return KinopoiskParse(title)
@@ -106,9 +106,12 @@ def tryKinopoisk(title, tries=3):
             if attempt < (tries-1) and attempt < 1:
                 print("Ошибка! Попытка удалить сезон")
                 title, season = SeasonDelete(title)
-            elif (tries - 1) > attempt >= 1:
+            elif (tries - 1) > attempt == 1:
                 print("Ошибка! Попытка убрать лишнее")
                 title = main.remove(title)
+            elif (tries - 1) > attempt > 1:
+                print("Попытка перевода названия")
+                title = translate({"search": title})["search"]
             else:
                 file = open("error.txt", "a")
                 file.write("Неудалось распознать " + title + "\n")

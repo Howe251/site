@@ -222,6 +222,7 @@ def remove(k):
         k = k.replace(".", " ")[0:-3].strip()
     else:
         k = k.replace(".", " ").strip()
+    k = k.replace("_", " ")
     restart = True
     if linest[0] in k or linest[3] in k:
         while restart:
