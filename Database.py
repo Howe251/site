@@ -149,7 +149,7 @@ def export_mult(k):
             print(item['series'][0])
             item['directory'] = item['directory'].replace("'", "\\'")
             item['directory'] = item['directory'].replace('"', '\\"')
-            insert = f"""INSERT INTO mult_mult (name, episodes, status, description, img_url, genre, unformated_name) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}')"""
+            insert = f"""INSERT INTO mult_mult (name, episodes, status, description, img_url, genre, unformated_name, mult) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}', True)"""
             print(insert)
             cursor.execute(insert)
             conn.commit()
@@ -218,7 +218,7 @@ def export_film(k):
             description = item['detail']['description']
             description = str(description).replace('"', '\\"')
             description = str(description).replace("'", "\\'")
-            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year) VALUES ("{item['detail']['country']}", "{description}", "{item['detail']['type']}", "{item['detail']['img']}", "{item['detail']['name'].replace('"', '')}", "{item['detail']['seasons']}", "{item['directory']}", "{item['detail']['year']}")"""
+            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year, mult) VALUES ("{item['detail']['country']}", "{description}", "{item['detail']['type']}", "{item['detail']['img']}", "{item['detail']['name'].replace('"', '')}", "{item['detail']['seasons']}", "{item['directory']}", "{item['detail']['year']}", False)"""
             print(insert)
             cursor.execute(insert)
             conn.commit()
