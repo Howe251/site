@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import kinopoisk_parcer
 
-URL = 'https://shikimori.one/animes/kind/tv,movie,ova,ona,music/status/released'
+URL = 'https://shiki.anime.ovh/animes/kind/tv,movie,ova,ona,music/status/released'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
            'accept': '*/*'}
 
@@ -31,6 +31,7 @@ def get_content(html):
     eps = "Фильм"
     item = soup.find('div', class_='b-db_entry')
     img = item.find('img').get('src')
+    img = img[0:img.find("?")]
     anime = []
     info = soup.find_all('div', class_='line-container')
     print(len(info))

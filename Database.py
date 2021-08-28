@@ -149,6 +149,7 @@ def export_mult(k):
             print(item['series'][0])
             item['directory'] = item['directory'].replace("'", "\\'")
             item['directory'] = item['directory'].replace('"', '\\"')
+            item['detail']['name'] = item['detail']['name'].replace("'", "\\'")
             insert = f"""INSERT INTO mult_mult (name, episodes, status, description, img_url, genre, unformated_name, mult) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}', True)"""
             print(insert)
             cursor.execute(insert)
@@ -170,7 +171,9 @@ def export_mult(k):
                     rows = cursor.fetchall()
                     export_series(serie, rows[0][1])
     except mysql.connector.errors.DatabaseError as err:
-        print("Error: ", err)
+        with open("error.txt", "a+") as f:
+            print("Error: ", err)
+            f.write(str(err)+"\n"+insert+"\n")
 
 
 def export_series(item, id):
@@ -184,7 +187,9 @@ def export_series(item, id):
         cursor.execute(insert)
         conn.commit()
     except mysql.connector.errors.DatabaseError as err:
-        print("Error: ", err)
+        with open("error.txt", "a+") as f:
+            print("Error: ", err)
+            f.write(str(err) + "\n" + insert + "\n")
 
 
 def export_sub_audio(items, type):
