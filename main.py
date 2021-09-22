@@ -3,6 +3,8 @@ import os
 import shiki_parcer as parcer
 import Database
 import kinopoisk_parcer
+import subprocess
+from subprocess import Popen, PIPE
 
 mults = []
 films = []
@@ -12,7 +14,7 @@ scanpath = "/disk1"
 
 
 def find_series_mult(k, i, mult):
-    print(k[i])
+    #print(k[i])
     if mult in k[i]:
         directory = k[i].replace(mult, '')
         if k[i].count('/') > scanpath.count('/') + 2:
@@ -34,7 +36,7 @@ def find_series_mult(k, i, mult):
                                'full_name': seria,
                                'directory': path,
                                'full_path': full_path})
-                print(seria)
+                #print(seria)
                 if path not in k[i + 1]:
                     break
                 i += 1
@@ -46,7 +48,7 @@ def find_series_mult(k, i, mult):
                            'full_name': seria,
                            'directory': path,
                            'full_path': full_path})
-            print(seria)
+            #print(seria)
     return name, series, path, i
 
 
@@ -62,8 +64,14 @@ def check_files_mkv_mult():
             mults.append({'name': name,
                           'directory': path,
                           'series': series,
-                          'detail': parcer.find(params={'search': name.replace(' ', '+')})})
+                          'detail': ''})
         i += 1
+    return mults
+
+
+def mult_detail(mults):
+    for mult in mults:
+        mult['detail'] = parcer.find(params={'search': mult['name'].replace(' ', '+')})
     return mults
 
 
@@ -130,10 +138,14 @@ def find_audio_mult():
 
 
 def export(mults, i):
-    if i:
-        Database.export_mult(mults)
+    if len(mults) == 0:
+        print("Экспортировать нечего")
+        sys.exit()
     else:
-        Database.export_film(mults)
+        if i:
+            Database.export_mult(mults)
+        else:
+            Database.export_film(mults)
 
 
 def check_files_mkv_film():
@@ -253,7 +265,7 @@ if __name__ == "__main__":
             export(check_files_mkv_film(), False)
         elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--mults" in sys.argv or "-m" in sys.argv):
             Database.drop(mults=True)
-            export(check_files_mkv_mult(), True)
+            export(mult_detail(check_files_mkv_mult()), True)
             Database.export_sub_audio(find_subs_mult(), "subs")
             Database.export_sub_audio(find_audio_mult(), "audio")
         elif ("--drop" in sys.argv or "-d" in sys.argv) and ("--subs" in sys.argv or "-s" in sys.argv):

@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import kinopoisk_parcer
 
-URL = 'https://shiki.anime.ovh/animes/kind/tv,movie,ova,ona,music/status/released'
+URL = 'https://shikimori.one/animes/kind/tv,movie,ova,ona,music/status/released'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
            'accept': '*/*'}
 
@@ -34,9 +34,9 @@ def get_content(html):
     img = img[0:img.find("?")]
     anime = []
     info = soup.find_all('div', class_='line-container')
-    print(len(info))
+    #print(len(info))
     for item in info:
-        print(item.find('div', class_='key'))
+        #print(item.find('div', class_='key'))
         if item.find('div', class_='key') is not None:
             a = item.find('div', class_='key').get_text()
             if a == 'Эпизоды:':
@@ -48,10 +48,10 @@ def get_content(html):
                 genre = ''
                 for n in item.find_all('span', class_='genre-ru'):
                     genre += n.get_text() + ' '
-                print(genre)
+                #print(genre)
                 break
     desc = soup.find('div', class_='b-text_with_paragraphs').get_text()
-    print(desc)
+    #print(desc)
 
     anime.append({
             'name': name,

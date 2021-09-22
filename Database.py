@@ -31,7 +31,7 @@ def get_mults():
     cursor.execute("SELECT unformated_name, id FROM mult_mult")  # Список всех тайтлов
     rows = cursor.fetchall()
     for row in rows:
-        cursor.execute(f"SELECT href FROM `mult_series` "
+        cursor.execute(f"SELECT href, full_name FROM `mult_series` "
                        f"WHERE name_id = (SELECT id FROM mult_mult WHERE id = {row[1]})")  # Спиоск всех серий с id
         series = cursor.fetchall()
         animes.append({'title_name': row[0],
@@ -73,6 +73,30 @@ def get_films():
                        'id': row[1]})
     conn.close()
     return films
+
+
+def delete_mults_by_name(name, mults, serie):
+    conn = connect(read_db_config())
+    cursor = conn.cursor()
+    try:
+        if mults and not serie:
+            cursor.execute(f"SELECT id, unformated_name, name FROM mult_mult WHERE unformated_name='{name}';")
+            rows = cursor.fetchall()
+            cursor.execute(f"DELETE FROM `mult_mult` WHERE `mult_mult`.`id` = {rows[0][0]}")
+            conn.commit()
+        elif mults and serie:
+            print(name[0][:name[0].find('/')])
+            cursor.execute(f"SELECT id, unformated_name, name FROM mult_mult WHERE unformated_name='{name[0][:name[0].find('/')]}';")
+            rows = cursor.fetchall()
+            cursor.execute(f"SELECT id, name_serie FROM mult_series WHERE name_id='{rows[0][0]}' AND full_name='{name[1]}';")
+            rows = cursor.fetchall()
+            if rows:
+                cursor.execute(f"DELETE FROM mult_series WHERE id='{rows[0][0]}'")
+                conn.commit()
+        conn.close()
+    except Error:
+        conn.close()
+        print(Error)
 
 
 def drop(films=False, mults=False, subs=False, audio=False):
