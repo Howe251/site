@@ -9,7 +9,8 @@ from subprocess import Popen, PIPE
 mults = []
 films = []
 serial = False
-scanpath = "/disk1"
+scanpath = "/home/howe251/test"
+#scanpath = "/disk1"
 #/disk1/Downloads/films
 
 
@@ -148,6 +149,23 @@ def export(mults, i):
             Database.export_film(mults)
 
 
+def prepare_to_export(path, film):
+    directory = path.replace(film, '')
+    if path.count('/') > scanpath.count('/') + 2:
+        serial = True
+        pathid = directory.find('/')
+        path = directory[0:pathid]
+        print(path)
+        name = directory[0:pathid].replace("_", " ")
+        name = remove(name.replace(".", " "))
+    else:
+        path = directory
+        name = directory.replace("_", " ")
+        name = remove(name.replace(r'\.(?=.*?\.)', ''))
+        serial = False
+    return name, path, serial
+
+
 def check_files_mkv_film():
     os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
@@ -156,19 +174,7 @@ def check_files_mkv_film():
     i = 0
     while i < len(k):
         if film in k[i]:
-            directory = k[i].replace(film, '')
-            if k[i].count('/') > scanpath.count('/') + 2:
-                serial = True
-                pathid = directory.find('/')
-                path = directory[0:pathid]
-                print(path)
-                name = directory[0:pathid].replace("_", " ")
-                name = remove(name.replace(".", " "))
-            else:
-                path = directory
-                name = directory.replace("_", " ")
-                name = remove(name.replace(".", " "))
-                serial = False
+            name, path, serial = prepare_to_export(k[i], film)
             series = []
             if serial:
                 while path in k[i]:
@@ -230,7 +236,8 @@ def find_new_mult():  # Делаем запрос к БД и ищем совпа
 
 def remove(k):
     linest = ("(", ")", "[", "]")
-    if ".mkv" in k:
+    k = k.replace(".1.", ".")
+    if "mkv" in k:
         k = k.replace(".", " ")[0:-3].strip()
     else:
         k = k.replace(".", " ").strip()

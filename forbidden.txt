@@ -7,6 +7,9 @@ MegaPeer
 3D-halfOU
 RGBM
 dvd5
+DVDRip-AVC
+DD5
+Fullscreen
 Yanka
 MVO
 IMAX
