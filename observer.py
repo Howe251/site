@@ -148,7 +148,7 @@ class Handler(PatternMatchingEventHandler):
 
 event_handler = Handler(patterns=['*.mkv'])
 observer = Observer()
-observer.schedule(event_handler, path="/home/howe251/test", recursive=True)
+observer.schedule(event_handler, path=scanpath, recursive=True)
 #observer.schedule(event_handler, path="/disk2/Downloads/films/Мультики", recursive=True)
 observer.start()
 
