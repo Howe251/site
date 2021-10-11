@@ -139,7 +139,7 @@ def find(params, tries=4):
                         'status': None,
                         'episodes': None,
                         'description': None,
-                        'isShown': True}
+                        'isShown': False}
 
 
 # params = None
