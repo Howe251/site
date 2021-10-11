@@ -9,8 +9,8 @@ from subprocess import Popen, PIPE
 mults = []
 films = []
 serial = False
-scanpath = "/home/howe251/test"
-#scanpath = "/disk1"
+#scanpath = "/home/howe251/test"
+scanpath = "/disk1"
 #/disk1/Downloads/films
 
 
@@ -157,6 +157,7 @@ def prepare_to_export(path, film):
         path = directory[0:pathid]
         print(path)
         name = directory[0:pathid].replace("_", " ")
+        name = name.replace(".1.", ".")
         name = remove(name.replace(".", " "))
     else:
         path = directory
@@ -235,7 +236,7 @@ def find_new_mult():  # Делаем запрос к БД и ищем совпа
 
 
 def remove(k):
-    linest = ("(", ")", "[", "]")
+    linest = ("(", ")", "[", "]", "{", "}")
     k = k.replace(".1.", ".")
     if "mkv" in k:
         k = k.replace(".", " ")[0:-3].strip()
@@ -247,19 +248,29 @@ def remove(k):
         while restart:
             string = k[k.find(linest[0]):k.find(linest[1]) + 1]
             string2 = k[k.find(linest[2]):k.find(linest[3]) + 1]
+            string3 = k[k.find(linest[4]):k.find(linest[5]) + 1]
             k = k.replace(string, "")
             k = k.replace(string2, "")
+            k = k.replace(string3, "")
             k = k.strip()
             if k.find(linest[0]) == -1 and k.find(linest[3]) == -1:
                 restart = False
     z = open("forbidden.txt", "r")
     words = [line[:-1] for line in z]
     z.close()
-    for idx, word in enumerate(words):
-        if word in k:
-            k = k.replace(word, "").strip()
-            if len(k) == 0:
-                break
+    for word in words:
+        # if word in k:
+        #     k = k.replace(word, "").strip()
+        copyk = list(filter(None, k.lower().split(" ")))
+        for i, w in enumerate(copyk):
+            if word.lower() == w:
+                k = list(filter(None, k.split()))
+                k.pop(i)
+                copyk.pop(i)
+                k = " ".join(k)
+                #k = "".join(k.split().pop(i))
+        if len(k) == 0:
+            break
     return k
 
 

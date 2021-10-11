@@ -59,7 +59,8 @@ def get_content(html):
             'status': status,
             'description': desc,
             'genre': genre,
-            'img': img
+            'img': img,
+            'isShown': True
         })
     return anime[0]
 
@@ -89,7 +90,7 @@ def parce(params):
     return title
 
 
-def find(params, tries=3):
+def find(params, tries=4):
     for attempt in range(tries):
         try:
             #kinopoisk_parcer.translate(params)
@@ -100,25 +101,45 @@ def find(params, tries=3):
             else:
                 return title
         except IndexError:
-            if attempt < (tries - 1) and attempt < 1:
-                print("Ошибка! попытка перевода")
-                kinopoisk_parcer.translate(params)
-                name = params["search"]
+            if attempt == 0:
+                print("Ошибка! попытка убрать +")
+                name = params["search"].replace("+", " ")
                 try:
                     title = kinopoisk_parcer.KinopoiskParse(name)
                     return title
                 except IndexError:
                     print("Ошибка поиска")
-            elif (tries - 1) > attempt >= 1:
+            elif attempt == 1:
                 try:
                     print("Ошибка! попытка поиска на Shikimori")
                     title = parce(params)
                     return title
                 except AttributeError:
-                    file = open("error.txt", "a")
-                    file.write("Неудалось распознать " + params["search"] + "\n")
-                    file.close()
-                    print("На Shikimori этого нет")
+                    print("На Shikimori такого нет")
+            elif attempt == 2:
+                try:
+                    print("Ошибка! попытка перевода")
+                    name = kinopoisk_parcer.translate(params)
+                    title = kinopoisk_parcer.KinopoiskParse(name['search'])
+                    return title
+                except IndexError:
+                    print("Кинопоиск не знает что это")
+            else:
+                file = open("error.txt", "a")
+                file.write("Неудалось распознать " + params["search"] + "\n")
+                file.close()
+                print("В базу запишется, но отображаться не будет")
+                return {'name': title,
+                        'country': None,
+                        'seasons': None,
+                        'type': None,
+                        'year': None,
+                        'img': None,
+                        'genre': None,
+                        'status': None,
+                        'episodes': None,
+                        'description': None,
+                        'isShown': True}
 
 
 # params = None

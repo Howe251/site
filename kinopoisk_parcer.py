@@ -116,7 +116,17 @@ def tryKinopoisk(title, tries=4):
                 file = open("error.txt", "a")
                 file.write("Неудалось распознать " + title + "\n")
                 file.close()
-                raise error
+                return {'name': title,
+                        'country': None,
+                        'seasons': None,
+                        'type': None,
+                        'img': None,
+                        'status': "Вышло",
+                        'genre': None,
+                        'episodes': 1,
+                        'description': None,
+                        'isShown': False,
+                        'year': None}
 
 
 def KinopoiskParse(title):
@@ -170,6 +180,7 @@ def KinopoiskParse(title):
              'genre': genres,
              'status': status,
              'episodes': episodes,
-             'description': film['description']}
+             'description': film['description'],
+             'isShown': True}
     print(films)
     return films
