@@ -129,7 +129,7 @@ def find(params, tries=4):
                 file.write("Неудалось распознать " + params["search"] + "\n")
                 file.close()
                 print("В базу запишется, но отображаться не будет")
-                return {'name': title,
+                return {'name': name,
                         'country': None,
                         'seasons': None,
                         'type': None,
