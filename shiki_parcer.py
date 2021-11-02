@@ -28,6 +28,8 @@ def get_url(html):
 def get_content(html):
     soup = BeautifulSoup(html, 'html.parser')
     name = soup.find('h1').get_text()
+    genre = ''
+    status = ''
     eps = "Фильм"
     item = soup.find('div', class_='b-db_entry')
     img = item.find('img').get('src')
@@ -50,7 +52,10 @@ def get_content(html):
                     genre += n.get_text() + ' '
                 #print(genre)
                 break
-    desc = soup.find('div', class_='b-text_with_paragraphs').get_text()
+    if soup.find('div', class_='b-text_with_paragraphs'):
+        desc = soup.find('div', class_='b-text_with_paragraphs').get_text()
+    else:
+        desc = "Нет описания"
     #print(desc)
 
     anime.append({

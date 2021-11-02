@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 from configparser import ConfigParser
+from datetime import datetime
 
 
 def read_db_config(filename='config.ini', section='mysql'):
@@ -174,7 +175,7 @@ def export_mult(k):
             item['directory'] = item['directory'].replace("'", "\\'")
             item['directory'] = item['directory'].replace('"', '\\"')
             item['detail']['name'] = item['detail']['name'].replace("'", "\\'")
-            insert = f"""INSERT INTO mult_mult (name, episodes, status, description, img_url, genre, unformated_name, mult, isShown) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}', True, {item['detail']['isShown']})"""
+            insert = f"""INSERT INTO mult_mult (name, episodes, status, description, img_url, genre, unformated_name, mult, isShown, create_date) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}', True, {item['detail']['isShown']}, '{datetime.now()}')"""
             print(insert)
             cursor.execute(insert)
             conn.commit()
@@ -247,7 +248,7 @@ def export_film(k):
             description = item['detail']['description']
             description = str(description).replace('"', '\\"')
             description = str(description).replace("'", "\\'")
-            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year, mult, isShown) VALUES ("{item['detail']['country']}", "{description}", "{item['detail']['type']}", "{item['detail']['img']}", "{item['detail']['name'].replace('"', '')}", "{item['detail']['seasons']}", "{item['directory']}", "{item['detail']['year']}", False, {item['detail']['isShown']})"""
+            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year, mult, isShown, create_date) VALUES ("{item['detail']['country']}", "{description}", "{item['detail']['type']}", "{item['detail']['img']}", "{item['detail']['name'].replace('"', '')}", "{item['detail']['seasons']}", "{item['directory']}", "{item['detail']['year']}", False, {item['detail']['isShown']}, '{datetime.now()}')"""
             print(insert)
             cursor.execute(insert)
             conn.commit()
