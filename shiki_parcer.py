@@ -1,3 +1,4 @@
+import time
 import requests
 from bs4 import BeautifulSoup
 import kinopoisk_parcer
@@ -9,7 +10,12 @@ HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko
 
 def get_html(url, params=None):
     try:
-        r = requests.get(url, headers=HEADERS, params=params)
+        r = requests.get(url, headers=HEADERS, params=params, timeout=(3, 10))
+        if r.status_code != 200:
+            while r.status_code != 200:
+                print("Задерка для сброса подключений")
+                time.sleep(20)
+                r = requests.get(url, headers=HEADERS, params=params, timeout=(3, 10))
         return r
     except requests.exceptions.MissingSchema as e:
         print(e)
