@@ -11,7 +11,7 @@ films = []
 serial = False
 #scanpath = "/home/howe251/test"
 scanpath = "/disk1"
-#/disk1/Downloads/films
+#/var/www/films3/films/assets/filmy
 
 
 def find_series_mult(k, i, mult):

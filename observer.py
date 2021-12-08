@@ -1,17 +1,12 @@
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
-#from inotifyrecursive import INotify, flags
 import time
 
 import kinopoisk_parcer
 from main import scanpath
 import main
 import Database
-import os
-
-
-#scanpath = "/home/howe251/test"
 
 
 def checkDB(film, serie, isMult):
@@ -117,6 +112,21 @@ def deleteSeries(path):
                     break
 
 
+def get_bool(prompt):
+    while True:
+        try:
+            return {"yes": True, "no": False}[input(prompt).lower()]
+        except KeyError:
+            print("Введите yes или no: ")
+
+
+def modify_event(path, is_multy_path, f):
+    if is_multy_path:
+        return scanpath+path[path.rfind(f):]
+    else:
+        return path
+
+
 class Handler(PatternMatchingEventHandler):
     def on_created(self, event):
         print(event)
@@ -141,15 +151,21 @@ class Handler(PatternMatchingEventHandler):
     def on_moved(self, event):
         print(event)
         if "Мультики" in event.dest_path:
-            add(event.dest_path, scanpath+"/Мультики/")
+            add(modify_event(event.dest_path, is_multy_path, "/Фильмы"), scanpath+"/Мультики/")
         elif "Фильмы" in event.dest_path:
-            add(event.dest_path, scanpath+"/Фильмы/")
+            add(modify_event(event.dest_path, is_multy_path, "/Фильмы"), scanpath+"/Фильмы/")
 
 
 event_handler = Handler(patterns=['*.mkv'])
 observer = Observer()
-observer.schedule(event_handler, path=scanpath, recursive=True)
-#observer.schedule(event_handler, path="/disk2/Downloads/films/Мультики", recursive=True)
+is_multy_path = get_bool("Multy path? Yes No \n")
+if is_multy_path:
+    #observer.schedule(event_handler, path="/home/howe251/test", recursive=True)
+    observer.schedule(event_handler, path="/ext_disk/Downloads/films", recursive=True)
+    observer.schedule(event_handler, path="/disk1/Downloads/films", recursive=True)
+    observer.schedule(event_handler, path="/disk2/Downloads/films", recursive=True)
+else:
+    observer.schedule(event_handler, path=scanpath, recursive=True)
 observer.start()
 
 try:
