@@ -151,7 +151,7 @@ class Handler(PatternMatchingEventHandler):
     def on_moved(self, event):
         print(event)
         if "Мультики" in event.dest_path:
-            add(modify_event(event.dest_path, is_multy_path, "/Фильмы"), scanpath+"/Мультики/")
+            add(modify_event(event.dest_path, is_multy_path, "/Мультики"), scanpath+"/Мультики/")
         elif "Фильмы" in event.dest_path:
             add(modify_event(event.dest_path, is_multy_path, "/Фильмы"), scanpath+"/Фильмы/")
 
