@@ -14,7 +14,7 @@ hyperframe==5.2.0
 idna==2.10
 IMDbPY==2020.9.25
 kinopoiskpy==0.8.2
-loguru==0.5.3
+loguru==0.6.0
 lxml==4.6.5
 mysql-connector-python==8.0.23
 oauthlib==3.1.0
