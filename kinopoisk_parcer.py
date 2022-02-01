@@ -1,3 +1,4 @@
+import time
 from googletrans import Translator, constants
 from imdb import IMDb
 import re
@@ -127,6 +128,10 @@ def tryKinopoisk(title, tries=4):
                         'description': None,
                         'isShown': False,
                         'year': None}
+        except requests.exceptions.ConnectionError:
+            checkInternet()
+            time.sleep(5)
+            tryKinopoisk(title)
 
 
 def KinopoiskParse(title):
@@ -184,3 +189,14 @@ def KinopoiskParse(title):
              'isShown': True}
     print(films)
     return films
+
+
+def checkInternet():
+    internet = False
+    while not internet:
+        try:
+            requests.get("http://google.com")
+            internet = True
+        except requests.exceptions.ConnectionError:
+            print("Интеренета нет")
+            time.sleep(10)

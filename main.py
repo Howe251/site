@@ -10,7 +10,7 @@ mults = []
 films = []
 serial = False
 #scanpath = "/home/howe251/test"
-scanpath = "/disk1"
+scanpath = "/var/www/films3/films/assets/filmy"
 #/var/www/films3/films/assets/filmy
 
 

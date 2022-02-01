@@ -32,7 +32,7 @@ def checkDB(film, serie, isMult):
                 if isMult:
                     Database.export_series(serie, mults['id'])
                 else:
-                    Database.export_series_film(serie, mults['id'])
+                    Database.export_series_film(serie[1], mults['id'])
                 print("записал в БД")
                 flag = False
     return flag
@@ -150,36 +150,30 @@ class Handler(PatternMatchingEventHandler):
 
     def on_moved(self, event):
         print(event)
-        if "Мультики" in event.dest_path:
-            add(modify_event(event.dest_path, is_multy_path, "/Фильмы"), scanpath+"/Мультики/")
-        elif "Фильмы" in event.dest_path:
+        if "Мультики" in event.dest_path and ".part" not in event.dest_path:
+            add(modify_event(event.dest_path, is_multy_path, "/Мультики"), scanpath+"/Мультики/")
+        elif "Фильмы" in event.dest_path and ".part" not in event.dest_path:
             add(modify_event(event.dest_path, is_multy_path, "/Фильмы"), scanpath+"/Фильмы/")
 
 
-event_handler = Handler(patterns=['*.mkv'])
-observer = Observer()
-is_multy_path = get_bool("Multy path? Yes No \n")
-if is_multy_path:
-    #observer.schedule(event_handler, path="/home/howe251/test", recursive=True)
-    observer.schedule(event_handler, path="/ext_disk/Downloads/films", recursive=True)
-    observer.schedule(event_handler, path="/disk1/Downloads/films", recursive=True)
-    observer.schedule(event_handler, path="/disk2/Downloads/films", recursive=True)
-else:
-    observer.schedule(event_handler, path=scanpath, recursive=True)
-observer.start()
+if __name__ == "__main__":
+    event_handler = Handler(patterns=['*.mkv'])
+    observer = Observer()
+    is_multy_path = get_bool("Multy path? Yes No \n")
+    if is_multy_path:
+        #observer.schedule(event_handler, path="/home/howe251/test", recursive=True)
+        observer.schedule(event_handler, path="/ext_disk/Downloads/films", recursive=True)
+        observer.schedule(event_handler, path="/disk1/Downloads/films", recursive=True)
+        observer.schedule(event_handler, path="/disk2/Downloads/films", recursive=True)
+    else:
+        observer.schedule(event_handler, path=scanpath, recursive=True)
+    observer.start()
+    print("Сканер запущен")
 
-try:
-    while True:
-        time.sleep(0.1)
-except KeyboardInterrupt:
-    observer.stop()
-observer.join()
+    try:
+        while True:
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
 
-"""inotify = INotify()
-watch_flags = flags.CREATE | flags.DELETE | flags.MODIFY | flags.DELETE_SELF
-wd = inotify.add_watch_recursive(scanpath, watch_flags)
-while True:
-    for event in inotify.read():
-        print(event)
-        for flag in flags.from_mask(event.mask):
-            print('    ' + str(flag))"""
