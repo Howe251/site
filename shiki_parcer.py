@@ -12,6 +12,7 @@ def get_html(url, params=None):
     try:
         r = requests.get(url, headers=HEADERS, params=params, timeout=(3, 10))
         if r.status_code != 200:
+            kinopoisk_parcer.checkInternet()
             while r.status_code != 200:
                 print("Задерка для сброса подключений")
                 time.sleep(20)
