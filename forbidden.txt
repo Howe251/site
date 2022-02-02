@@ -116,6 +116,8 @@ MegaPeer
 MediaClub
 mkv
 MVO
+mreskenses
+RuTracker
 Neoclub
 NF
 nnm-club
