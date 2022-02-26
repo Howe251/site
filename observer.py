@@ -4,6 +4,7 @@ from watchdog.events import PatternMatchingEventHandler
 import time
 
 import kinopoisk_parcer
+import shiki_parcer
 from main import scanpath
 import main
 import Database
@@ -54,16 +55,14 @@ def add(path, mult_path):
         'name': name,
         'directory': route,
         'series': serie,
-        'detail': kinopoisk_parcer.tryKinopoisk(name)
+        'detail': None
     })
-    if "country" in film[0]['detail']:
-        flag = checkDB(film, serie, False)
-        if flag:
-            main.export(film, False)
-    else:
-        flag = checkDB(film, serie, True)
-        if flag:
-            main.export(film, True)
+    if checkDB(film, serie, 'Фильмы' not in path):
+        if 'Фильмы' in path:
+            film[0]['detail'] = kinopoisk_parcer.tryKinopoisk(name)
+        else:
+            film[0]['detail'] = shiki_parcer.find({'search': name})
+        main.export(film, 'Фильмы' not in path)
 
 
 def addSerie(path):
@@ -153,7 +152,6 @@ class Handler(PatternMatchingEventHandler):
         if "Мультики" in event.dest_path and ".part" not in event.dest_path:
             add(modify_event(event.dest_path, is_multy_path, "/Мультики"), scanpath+"/Мультики/")
         elif "Фильмы" in event.dest_path and ".part" not in event.dest_path:
-
             add(modify_event(event.dest_path, is_multy_path, "/Фильмы"), scanpath+"/Фильмы/")
 
 
