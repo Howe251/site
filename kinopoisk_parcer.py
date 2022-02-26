@@ -45,60 +45,6 @@ def SeasonDelete(title):
     return title, season
 
 
-def Film_parse(title):
-    country = "США"
-    films = []
-    title, season = SeasonDelete(title)
-    ia = IMDb()
-    print(title)
-    search = ia.search_movie(title=title)
-    if len(search) > 0:
-        print(search[0].movieID)
-        movie = ia.get_movie(search[0].movieID)
-        if 'cover url' not in movie:
-            title = translate({'search': title})
-            print(title)
-            search = ia.search_movie(title=title['search'])
-            print(search[0].movieID)
-            movie = ia.get_movie(search[0].movieID)
-        print(movie['original title'])
-        imgResize(movie)
-        if movie['kind'] == 'tv series' and 'plot' in movie:
-            seasons = movie['number of seasons']
-            description = movie['plot'][season - 1]
-        elif 'plot' in movie:
-            seasons = 'Фильм'
-            description = movie['plot']
-        else:
-            seasons = 'Фильм'
-            description = 'Нет данных'
-        if 'year' in movie:
-            year = movie['year']
-        else:
-            year = 'Нет данных'
-        if 'countries' in movie:
-            for country in movie['countries']:
-                country = country + " "
-        films.append({'name': movie['original title'],
-                      'country': country,
-                      'seasons': seasons,
-                      'season': season,
-                      'type': movie['kind'],
-                      'year': year,
-                      'img': movie['cover url'],
-                      'description': description})
-        return films
-    else:
-        return ([{'name': title,
-                  'country': 'Нет данных',
-                  'seasons': '1',
-                  'season': 1,
-                  'type': 'Нет данных',
-                  'year': '0',
-                  'img': 'Нет данных',
-                  'description': [{"Нет данных"}, ]}, ])
-
-
 def tryKinopoisk(title, tries=4):
     for attempt in range(tries):
         try:
@@ -149,7 +95,10 @@ def KinopoiskParse(title):
     genres = ''
     for genre in film['genres']:
         if genre['genre'] == "аниме":
-            return shiki_parcer.parce(params={'search': title})
+            film2 = shiki_parcer.parce(params={'search': title})
+            if len(set(film['nameEn'].lower().split()) &
+                   set(film2['name'][film2['name'].find("/")+2:].lower().split())) > 1:
+                return film2
         genres += genre['genre']+ " "
     if film['seasons']:
         for i, season in enumerate(film['seasons']):

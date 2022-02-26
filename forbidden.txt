@@ -34,6 +34,7 @@ AMZN
 AVC
 Atmos
 Atmos-
+AniPlague
 BD
 BD-Remux
 BDREMUX
