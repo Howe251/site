@@ -29,7 +29,7 @@ def find_series_mult(k, i, mult):
             serial = False
         series = []
         if serial:
-            while path in k[i]:
+            while path in k[i] and i < len(k) - 1:
                 seria = k[i].replace(mult, '')[k[i].replace(mult, '').find('/') + 1::]
                 nameofseria = remove(seria)
                 full_path = k[i].replace(mult, "")

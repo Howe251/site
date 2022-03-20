@@ -54,9 +54,9 @@ def get_content(html):
                 st = item.find('span', class_='b-anime_status_tag')
                 status = st.get('data-text') + item.find('div', class_='value').get_text()
             elif a == 'Жанры:':
-                genre = ''
+                genre = []
                 for n in item.find_all('span', class_='genre-ru'):
-                    genre += n.get_text() + ' '
+                    genre.append(n.get_text().capitalize())
                 #print(genre)
                 break
     if soup.find('div', class_='b-text_with_paragraphs'):

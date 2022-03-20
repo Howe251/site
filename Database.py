@@ -76,6 +76,47 @@ def get_films():
     return films
 
 
+def get_genres():
+    conn = connect(read_db_config())
+    cursor = conn.cursor()
+    cursor.execute("SELECT `id`, `name` FROM mult_genre")
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_mult_genre(id):
+    conn = connect(read_db_config())
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT `id`, `mult_id`, `genre_id` FROM mult_mult_genre WHERE mult_id = {id}")
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_mult_id(mult, cursor):
+    cursor.execute(f"SELECT `id` FROM mult_mult WHERE unformated_name = '{mult}'")
+    rows = cursor.fetchall()
+    return rows[0]
+
+
+def get_film_id(film, cursor):
+    cursor.execute(f"""SELECT `id` FROM mult_film WHERE unformated_name = "{film}";""")
+    rows = cursor.fetchall()
+    return rows[0]
+
+
+def get_genre_id(genre, cursor):
+    cursor.execute(f"SELECT `id` FROM mult_genre WHERE name = '{genre}'")
+    rows = cursor.fetchall()
+    return rows[0]
+
+
+def add_genre(genre):
+    conn = connect(read_db_config())
+    cursor = conn.cursor()
+    cursor.execute(f"INSERT INTO mult_genre (`name`) VALUES ('{genre}')")
+    conn.commit()
+
+
 def delete_mults_by_name(name, mults, serie):
     conn = connect(read_db_config())
     cursor = conn.cursor()
@@ -106,6 +147,8 @@ def drop(films=False, mults=False, subs=False, audio=False):
     try:
         if mults:
             rows = get_mults()
+            cursor.execute("DELETE * FROM mult_mult_genre")
+            conn.commit()
             for row in rows:
                 cursor.execute(f"DELETE FROM mult_mult WHERE id = {row['id']};")
             conn.commit()
@@ -115,8 +158,11 @@ def drop(films=False, mults=False, subs=False, audio=False):
         if films:
             rows = get_films()
             for row in rows:
+                cursor.execute(f"DELETE FROM mult_film_genre WHERE film_id = {row['id']}")
+                conn.commit()
                 cursor.execute(f"DELETE FROM mult_film WHERE id = {row['id']};")
             conn.commit()
+            cursor.execute("""ALTER TABLE mult_film_genre AUTO_INCREMENT=1;""")
             cursor.execute("""ALTER TABLE mult_seriesfilms AUTO_INCREMENT=1;""")
             cursor.execute("""ALTER TABLE mult_film AUTO_INCREMENT=1;""")
             conn.commit()
@@ -168,17 +214,27 @@ def connect(db):
 
 def export_mult(k):
     try:
+        conn = connect(read_db_config())
+        cursor = conn.cursor()
         for item in k:
-            conn = connect(read_db_config())
-            cursor = conn.cursor()
             print(item['series'][0])
             item['directory'] = item['directory'].replace("'", "\\'")
             item['directory'] = item['directory'].replace('"', '\\"')
             item['detail']['name'] = item['detail']['name'].replace("'", "\\'")
-            insert = f"""INSERT INTO mult_mult (name, episodes, status, description, img_url, genre, unformated_name, mult, isShown, create_date) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['detail']['genre']}', '{item['directory']}', True, {item['detail']['isShown']}, '{datetime.now()}')"""
+            insert = f"""INSERT INTO mult_mult (name, episodes, status, description, img_url, unformated_name, mult, isShown, create_date) VALUES ('{item['detail']['name']}', '{item['detail']['episodes']}', '{item['detail']['status']}', '{item['detail']['description']}', '{item['detail']['img']}', '{item['directory']}', True, {item['detail']['isShown']}, '{datetime.now()}')"""
             print(insert)
             cursor.execute(insert)
             conn.commit()
+            genres = get_genres()
+            mult_genres = item["detail"]["genre"]
+            if mult_genres:
+                for genre in mult_genres:
+                    if genre not in [g[1] for g in genres]:
+                        add_genre(genre)
+                        genres = get_genres()
+                    cursor.execute(f"""INSERT INTO mult_mult_genre (mult_id, genre_id) VALUES 
+                                    ('{get_mult_id(item["directory"], cursor)[0]}', '{get_genre_id(genre, cursor)[0]}');""")
+                    conn.commit()
             for serie in enumerate(item['series']):
                 into_series = f"SELECT unformated_name, id FROM mult_mult WHERE name in " \
                               f"(SELECT '{item['detail']['name']}' " \
@@ -195,6 +251,7 @@ def export_mult(k):
                     cursor.execute(into_series)
                     rows = cursor.fetchall()
                     export_series(serie, rows[0][1])
+        conn.close()
     except mysql.connector.errors.DatabaseError as err:
         with open("error.txt", "a+") as f:
             print("Error: ", err)
@@ -240,27 +297,39 @@ def export_sub_audio(items, type):
 
 def export_film(k):
     try:
+        conn = connect(read_db_config())
+        cursor = conn.cursor()
         for item in k:
-            conn = connect(read_db_config())
-            cursor = conn.cursor()
             print(item['series'][0])
             #season = item['detail'][0]['season']-1
             description = item['detail']['description']
-            description = str(description).replace('"', '\\"')
-            description = str(description).replace("'", "\\'")
-            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year, mult, isShown, create_date) VALUES ("{item['detail']['country']}", "{description}", "{item['detail']['type']}", "{item['detail']['img']}", "{item['detail']['name'].replace('"', '')}", "{item['detail']['seasons']}", "{item['directory']}", "{item['detail']['year']}", False, {item['detail']['isShown']}, '{datetime.now()}')"""
+            description = str(description).replace('"', '\"')
+            description = str(description).replace("'", "\'")
+            directory = item['directory'].replace("'", "\'")
+            directory = directory.replace('"', '\"')
+            insert = f"""INSERT INTO mult_film (country, description, filmtype, img_url, name, seasons, unformated_name, year, mult, isShown, create_date) VALUES ("{item['detail']['country']}", "{description}", "{item['detail']['type']}", "{item['detail']['img']}", "{item['detail']['name'].replace('"', '')}", "{item['detail']['seasons']}", "{directory}", "{item['detail']['year']}", False, {item['detail']['isShown']}, '{datetime.now()}')"""
             print(insert)
             cursor.execute(insert)
             conn.commit()
+            genres = get_genres()
+            film_genres = item['detail']['genre']
+            if film_genres:
+                for genre in film_genres:
+                    if genre not in [g[1] for g in genres]:
+                        add_genre(genre)
+                        genres = get_genres()
+                    cursor.execute(f"""INSERT INTO mult_film_genre (film_id, genre_id) VALUES 
+                                    ("{get_film_id(directory, cursor)[0]}", "{get_genre_id(genre, cursor)[0]}");""")
+                    conn.commit()
             for serie in item['series']:
-                into_series = f"""SELECT "{item['directory'].replace('"', '')}", id FROM mult_film WHERE unformated_name="{item['directory'].replace('"', '')}";"""
+                into_series = f"""SELECT "{directory}", id FROM mult_film WHERE unformated_name="{directory}";"""
                 print(into_series)
                 cursor.execute(into_series)
                 rows = cursor.fetchall()
                 for row in rows:
                     print(f"{row}")
                 export_series_film(serie, rows[0][1])
-            conn.close()
+        conn.close()
     except mysql.connector.errors.DatabaseError as err:
         print("Error: ", err)
 
