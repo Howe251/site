@@ -147,9 +147,9 @@ def drop(films=False, mults=False, subs=False, audio=False):
     try:
         if mults:
             rows = get_mults()
-            cursor.execute("DELETE * FROM mult_mult_genre")
-            conn.commit()
             for row in rows:
+                cursor.execute(f"DELETE FROM mult_mult_genre WHERE mult_id = {row['id']}")
+                conn.commit()
                 cursor.execute(f"DELETE FROM mult_mult WHERE id = {row['id']};")
             conn.commit()
             cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=1;""")
