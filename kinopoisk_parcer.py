@@ -92,14 +92,14 @@ def KinopoiskParse(title):
     seasons = 0
     id_last_season = 0
     film = response['data']
-    genres = ''
+    genres = []
     for genre in film['genres']:
         if genre['genre'] == "аниме":
             film2 = shiki_parcer.parce(params={'search': title})
             if len(set(film['nameEn'].lower().split()) &
                    set(film2['name'][film2['name'].find("/")+2:].lower().split())) > 1:
                 return film2
-        genres += genre['genre']+ " "
+        genres.append(genre['genre'].capitalize())
     if film['seasons']:
         for i, season in enumerate(film['seasons']):
             if season['number'] >= seasons:
