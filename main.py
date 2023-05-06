@@ -10,11 +10,21 @@ mults = []
 films = []
 serial = False
 #scanpath = "/home/howe251/test"
-scanpath = "/var/www/films3/films/assets/filmy"
+scanpath = "/var/www/films/films/assets/filmy"
 #/var/www/films3/films/assets/filmy
 
 
 def find_series_mult(k, i, mult):
+    """
+    Поиск серий к мультикам отсканированным в check_files_mkv_mult
+    :type k: list
+    :param k: Список файлов
+    :type i: int
+    :param i: Индекс в списке
+    :type mult: bool
+    :param mult: Проверка на Мультфильм
+    :return: Имя, список серий, путь к папке/файлу, индекс
+    """
     #print(k[i])
     if mult in k[i]:
         directory = k[i].replace(mult, '')
@@ -54,6 +64,10 @@ def find_series_mult(k, i, mult):
 
 
 def check_files_mkv_mult():
+    """
+    Сканер папки на файлы mkv (Мультики
+    :return: список словарей с мультиками
+    """
     os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
     mult = scanpath + "/Мультики/"
@@ -71,12 +85,21 @@ def check_files_mkv_mult():
 
 
 def mult_detail(mults):
+    """
+    Поиск детальной информации по мультфильму на Shikimori и Kinopoisk
+    :param mults: список словарей с мультфильмами
+    :return: Обработанный словарь
+    """
     for mult in mults:
         mult['detail'] = parcer.find(params={'search': mult['name'].replace(' ', '+')})
     return mults
 
 
 def find_subs_mult():
+    """
+    Функция поиска субтитров к мультикам
+    :return: список словарей сабов
+    """
     os.system(f"find {scanpath} -name *.ass > subs.txt")
     k = open("subs.txt", "r").readlines()
     mult = scanpath + "/Мультики/"
@@ -120,6 +143,10 @@ def find_subs_mult():
 
 
 def find_audio_mult():
+    """
+    Функция поиска озвучек к мультикам в форматах ac3 и mka
+    :return: список словарей с озвучками
+    """
     audio = []
     # os.system(f"find {scanpath} -name *.ass > subs.txt")
     try:
@@ -139,6 +166,14 @@ def find_audio_mult():
 
 
 def export(mults, i):
+    """
+    Экпортирует данные в базу данных
+    :type mults: dict
+    :param mults:
+    :type i: bool
+    :param i: Какой словарь? True - Мультфильмы, False - Фильмы
+    :return:
+    """
     if len(mults) == 0:
         print("Экспортировать нечего")
         sys.exit()
@@ -150,6 +185,14 @@ def export(mults, i):
 
 
 def prepare_to_export(path, film):
+    """
+    Функция подготовки к экспорту
+    :type path: str
+    :param path: Строка пути к файлу
+    :type film: str
+    :param film: Строка пути к папке с фильмами/мультиками
+    :return: Обрезанные имя файла, путь к файлу, Тип (Сериал или нет)
+    """
     directory = path.replace(film, '')
     if path.count('/') > scanpath.count('/') + 2:
         serial = True
@@ -168,6 +211,10 @@ def prepare_to_export(path, film):
 
 
 def check_files_mkv_film():
+    """
+    Сканирует папку на наличие фильмов и если это сериал делит по сериям
+    :return: Словарь с фильмами
+    """
     os.system(f"find {scanpath} -name *.mkv > playlist.txt")
     k = open("playlist.txt", "r").readlines()
     film = scanpath + "/Фильмы/"
@@ -206,6 +253,10 @@ def check_files_mkv_film():
 
 
 def find_new_mult():  # Делаем запрос к БД и ищем совпадения названий серий и папок с теми что есть
+    """
+    Сканирует каталог на наличие Мультфильмов, затем делает запрос к БД. Если найденых файлов в базе нет -> добавляем
+    :return: None
+    """
     series = Database.get_mults()
     mult = scanpath + "/Мультики/"
     os.system(f"find {mult} -name *.mkv > playlist.txt")
@@ -236,6 +287,12 @@ def find_new_mult():  # Делаем запрос к БД и ищем совпа
 
 
 def remove(k):
+    """
+    Принимает на вход строку и удаляет из нее все запрещенное
+    :type k: str
+    :param k: Строка перед обрезкой
+    :return: Строка после обрезки
+    """
     linest = ("(", ")", "[", "]", "{", "}")
     k = k.replace(".1.", ".")
     if "mkv" in k:

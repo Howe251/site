@@ -40,6 +40,14 @@ def checkDB(film, serie, isMult):
 
 
 def add(path, mult_path):
+    """
+    Функция автоматического добавления одного файла в БД
+    :type path: str
+    :param path: Полный путь к файлу
+    :type mult_path: str
+    :param mult_path: Путь до папки Мультики
+    :return: None
+    """
     name, route, serial = main.prepare_to_export(path, mult_path)
     serie = []
     film = []
