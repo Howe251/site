@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import kinopoisk_parcer
 
-URL = 'https://shikimori.one/animes/kind/tv,movie,ova,ona,music/status/released/rating/r,g,pg,pg_13'
+URL = 'https://shikimori.one/animes/kind/tv,movie,ova,ona,music/status/released,ongoing/rating/r,g,pg,pg_13/order-by/aired_on'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
            'accept': '*/*'}
 

@@ -174,3 +174,4 @@ x264-LEONARDO
 x265
 Yanka
 zsRutracker
+season
