@@ -21,8 +21,8 @@ def find_series_mult(k, i, mult):
     :param k: Список файлов
     :type i: int
     :param i: Индекс в списке
-    :type mult: bool
-    :param mult: Проверка на Мультфильм
+    :type mult: str
+    :param mult: Путь к папке с мультами
     :return: Имя, список серий, путь к папке/файлу, индекс
     """
     #print(k[i])
@@ -48,7 +48,10 @@ def find_series_mult(k, i, mult):
                                'directory': path,
                                'full_path': full_path})
                 #print(seria)
-                if path not in k[i + 1]:
+                try:
+                    if path not in k[i + 1]:
+                        break
+                except IndexError:
                     break
                 i += 1
         else:
@@ -63,15 +66,31 @@ def find_series_mult(k, i, mult):
     return name, series, path, i
 
 
+def find_files(root_dir, ext):
+    """
+    Поиск файлов с определенным расширением в папках
+    :param root_dir: Корневая папка (с которой начинать поиск)
+    :type root_dir: str
+    :param ext: Расширения файлов
+    :type ext: list
+    :return: Список найденных файлов
+    """
+    k = []
+    for root, dirs, files in os.walk(root_dir, followlinks=True):
+        for file in files:
+            if file.endswith(tuple(ext)):
+                k.append(os.path.join(root, file))
+    return k
+
+
 def check_files_mkv_mult():
     """
-    Сканер папки на файлы mkv (Мультики
+    Сканер папки на файлы mkv Мультики
     :return: список словарей с мультиками
+    :type: dict
     """
-    os.system(f"find {scanpath} -name *.mkv > playlist.txt")
-    k = open("playlist.txt", "r").readlines()
-    mult = scanpath + "/Мультики/"
-    k = [line[:-1] for line in k]
+    k = find_files(scanpath, ['mkv', 'avi'])
+    mult = os.path.join(scanpath, "Мультики") + ("\\" if os.name == "nt" else "/")
     i = 0
     while i < len(k):
         if mult in k[i]:
@@ -100,10 +119,8 @@ def find_subs_mult():
     Функция поиска субтитров к мультикам
     :return: список словарей сабов
     """
-    os.system(f"find {scanpath} -name *.ass > subs.txt")
-    k = open("subs.txt", "r").readlines()
+    k = find_files(scanpath, ['.ass'])
     mult = scanpath + "/Мультики/"
-    k = [line[:-1] for line in k]
     i = 0
     subs = []
     print(k[i])
@@ -215,10 +232,8 @@ def check_files_mkv_film():
     Сканирует папку на наличие фильмов и если это сериал делит по сериям
     :return: Словарь с фильмами
     """
-    os.system(f"find {scanpath} -name *.mkv > playlist.txt")
-    k = open("playlist.txt", "r").readlines()
+    k = find_files(scanpath, ['.mkv'])
     film = scanpath + "/Фильмы/"
-    k = [line[:-1] for line in k]
     i = 0
     while i < len(k):
         if film in k[i]:
@@ -233,7 +248,10 @@ def check_files_mkv_film():
                                    'full_name': seria,
                                    'full_path': full_path})
                     print(seria)
-                    if path not in k[i + 1]:
+                    try:
+                        if path not in k[i + 1]:
+                            break
+                    except IndexError:
                         break
                     i += 1
             else:
@@ -259,9 +277,7 @@ def find_new_mult():  # Делаем запрос к БД и ищем совпа
     """
     series = Database.get_mults()
     mult = scanpath + "/Мультики/"
-    os.system(f"find {mult} -name *.mkv > playlist.txt")
-    k = open("playlist.txt", "r").readlines()
-    k = [line[:-1] for line in k]
+    k = find_files(mult, ['.mkv'])
     i = 0
     mm = []
     while i < len(k) and mult in k[i]:
@@ -351,7 +367,7 @@ if __name__ == "__main__":
             Database.export_sub_audio(find_audio_mult(), "audio")
         elif "--drop" in sys.argv or "-d" in sys.argv:
             Database.drop(True, True, True, True)
-            export(check_files_mkv_mult(), True)
+            export(mult_detail(check_files_mkv_mult()), True)
             export(check_files_mkv_film(), False)
             Database.export_sub_audio(find_subs_mult(), "subs")
             Database.export_sub_audio(find_audio_mult(), "audio")

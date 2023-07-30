@@ -1,5 +1,7 @@
+from sys import exit
 import mysql.connector
 from mysql.connector import Error
+from mysql.connector.errors import IntegrityError, ProgrammingError
 from configparser import ConfigParser
 from datetime import datetime
 
@@ -25,9 +27,17 @@ def read_db_config(filename='config.ini', section='mysql'):
     return db
 
 
-def get_mults():
+def get_mults(conn=None):
+    """
+    Функция получения мультфильмов из базы данных
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    :return: Список мультфильмов в базе
+    """
     animes = []
-    conn = connect(read_db_config())
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = True
     cursor = conn.cursor()
     cursor.execute("SELECT unformated_name, id FROM mult_mult")  # Список всех тайтлов
     rows = cursor.fetchall()
@@ -38,30 +48,53 @@ def get_mults():
         animes.append({'title_name': row[0],
                        'serie_name': series,
                        'id': row[1]})
-    conn.close()
+    if "global_conn" in dir(): conn.close()
     return animes
 
 
-def get_subs():
-    subs = []
-    conn = connect(read_db_config())
+def get_subs(conn=None):
+    """
+    Функция получения субтитров из базы данных
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    :return: Список субтитров в базе
+    """
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = True
     cursor = conn.cursor()
     cursor.execute("SELECT name_sub, id FROM mult_subs")  # Список всех субтитров
-    subs = cursor.fetchall()
-    return subs
+    if "global_conn" in dir(): conn.close()
+    return cursor.fetchall()
 
 
-def get_audio():
-    conn = connect(read_db_config())
+def get_audio(conn=None):
+    """
+    Функция получения аудио к мультфильмам из базы данных
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    :return: Список аудио к мультфильмам в базе
+    """
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = True
     cursor = conn.cursor()
-    cursor.execute("SELECT name_audio, id FROM mult_audio")  # Список всех субтитров
-    subs = cursor.fetchall()
-    return subs
+    cursor.execute("SELECT name_audio, id FROM mult_audio")  # Список всех аудио
+    if "global_conn" in dir(): conn.close()
+    return cursor.fetchall()
 
 
-def get_films():
+def get_films(conn=None):
+    """
+    Функция получения фильмов из базы данных
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    :return: Список фильмов в базе
+    """
     films = []
-    conn = connect(read_db_config())
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = False
     cursor = conn.cursor()
     cursor.execute("SELECT unformated_name, id FROM mult_film")  # Список всех фильмов
     rows = cursor.fetchall()
@@ -72,112 +105,177 @@ def get_films():
         films.append({'title_name': row[0],
                        'serie_name': series,
                        'id': row[1]})
-    conn.close()
+    if "global_conn" in dir(): conn.close()
     return films
 
 
-def get_genres():
-    conn = connect(read_db_config())
+def get_genres(conn=None):
+    """
+    Функция получения списка жанров из базы данных
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    :return: Список жанров в базе
+    """
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = False
     cursor = conn.cursor()
     cursor.execute("SELECT `id`, `name` FROM mult_genre")
-    rows = cursor.fetchall()
-    return rows
+    if "global_conn" in dir(): conn.close()
+    return cursor.fetchall()
 
 
-def get_mult_genre(id):
-    conn = connect(read_db_config())
+def get_mult_genre(id, conn=None):
+    """
+    Функция получения жанров к мультфильму по id из базы данных
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    :return: Список жанров к мультфильму по id в базе
+    """
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = False
     cursor = conn.cursor()
     cursor.execute(f"SELECT `id`, `mult_id`, `genre_id` FROM mult_mult_genre WHERE mult_id = {id}")
-    rows = cursor.fetchall()
-    return rows
+    if "global_conn" in dir():
+        conn.close()
+    return cursor.fetchall()
 
 
 def get_mult_id(mult, cursor):
     cursor.execute(f"SELECT `id` FROM mult_mult WHERE unformated_name = '{mult}'")
-    rows = cursor.fetchall()
-    return rows[0]
+    return cursor.fetchall()[0]
 
 
 def get_film_id(film, cursor):
     cursor.execute(f"""SELECT `id` FROM mult_film WHERE unformated_name = "{film}";""")
-    rows = cursor.fetchall()
-    return rows[0]
+    return cursor.fetchall()[0]
 
 
 def get_genre_id(genre, cursor):
     cursor.execute(f"SELECT `id` FROM mult_genre WHERE name = '{genre}'")
-    rows = cursor.fetchall()
-    return rows[0]
+    return cursor.fetchall()[0]
 
 
-def add_genre(genre):
-    conn = connect(read_db_config())
+def add_genre(genre, conn=None):
+    """
+    Функция добавления жанров в базу данных
+    :param genre: Жанр
+    :type genre: str
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    """
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = False
     cursor = conn.cursor()
     cursor.execute(f"INSERT INTO mult_genre (`name`) VALUES ('{genre}')")
     conn.commit()
+    if "global_conn" in dir(): conn.close()
 
 
-def delete_mults_by_name(name, mults, serie):
-    conn = connect(read_db_config())
+def delete_by_name(name, mults=False, serie=False, conn=None):
+    """
+    Удалить объект из базы данных по имени
+    :param name: Имя объекта
+    :type name: str, list
+    :param mults: Искать в мультиках?
+    :type mults: bool
+    :param serie: True - name -> list, False - name -> str
+    :type serie: bool
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    """
+    table = "mult" if mults else "film"
+    if not conn:
+        conn = connect(read_db_config())
+        global_conn = False
     cursor = conn.cursor()
     try:
-        if mults and not serie:
-            cursor.execute(f"SELECT id, unformated_name, name FROM mult_mult WHERE unformated_name='{name}';")
+        if not serie:
+            name = name.replace("'", '\'')
+            cursor.execute(f"""SELECT id, unformated_name, name FROM mult_{table} WHERE unformated_name="{name}";""")
             rows = cursor.fetchall()
-            cursor.execute(f"DELETE FROM `mult_mult` WHERE `mult_mult`.`id` = {rows[0][0]}")
+            cursor.execute(f"DELETE FROM `mult_{table}` WHERE `mult_{table}`.`id` = {rows[0][0]}")
             conn.commit()
-        elif mults and serie:
+        else:
             print(name[0][:name[0].find('/')])
-            cursor.execute(f"SELECT id, unformated_name, name FROM mult_mult WHERE unformated_name='{name[0][:name[0].find('/')]}';")
+            cursor.execute(f"SELECT id, unformated_name, name FROM mult_{table} WHERE unformated_name='{name[0][:name[0].find('/')]}';")
             rows = cursor.fetchall()
-            cursor.execute(f"SELECT id, name_serie FROM mult_series WHERE name_id='{rows[0][0]}' AND full_name='{name[1]}';")
+            cursor.execute(f"SELECT id, name_serie FROM mult_series{'films' if table=='film' else ''} WHERE name_id='{rows[0][0]}' AND full_name='{name[1]}';")
             rows = cursor.fetchall()
             if rows:
-                cursor.execute(f"DELETE FROM mult_series WHERE id='{rows[0][0]}'")
+                cursor.execute(f"DELETE FROM mult_series{'films' if table=='film' else ''} WHERE id='{rows[0][0]}'")
                 conn.commit()
-        conn.close()
-    except Error:
-        conn.close()
-        print(Error)
+        if "global_conn" in dir(): conn.close()
+    except IntegrityError as e:
+        print(e)
+        if "constraint fails" in e.msg:
+            print("Попытка изменить FK с RESTRICT на CASCADE")
+            FK = e.msg[e.msg.find("(")+1:e.msg.rfind(")")].split()
+            print("Удаляю старый FK")
+            cursor.execute(f"""ALTER TABLE {FK[0].replace(',','')} DROP FOREIGN KEY {FK[FK.index('CONSTRAINT')+1]};""")
+            conn.commit()
+            print("Устанавливаю новый")
+            cursor.execute(f"""ALTER TABLE {FK[0].replace(',','')} ADD CONSTRAINT {FK[FK.index('CONSTRAINT')+1]} 
+            FOREIGN KEY {FK[FK.index('KEY')+1]} REFERENCES {FK[FK.index('REFERENCES')+1]}{FK[FK.index('REFERENCES')+2]}
+             ON DELETE CASCADE ON UPDATE CASCADE;""")
+            conn.commit()
+            print("Успешно! Пробую еще раз")
+            delete_by_name(name, mults, serie, conn)
+    except ProgrammingError as e:
+        print(e)
 
 
 def drop(films=False, mults=False, subs=False, audio=False):
+    """
+    Удаление всего из базы данных
+    :param films: Удалить все фильмы?
+    :param mults: Удалить все мультфильмы?
+    :param subs: Удалить все субтитры к мультфильмам?
+    :param audio: Удалить все аудио к мультфильмам?
+    """
     conn = connect(read_db_config())
     cursor = conn.cursor()
     try:
         if mults:
-            rows = get_mults()
+            rows = get_mults(conn)
             for row in rows:
-                cursor.execute(f"DELETE FROM mult_mult_genre WHERE mult_id = {row['id']}")
-                conn.commit()
-                cursor.execute(f"DELETE FROM mult_mult WHERE id = {row['id']};")
-            conn.commit()
+                delete_by_name(row['title_name'], True, False, conn)
             cursor.execute("""ALTER TABLE mult_mult AUTO_INCREMENT=1;""")
             cursor.execute("""ALTER TABLE mult_series AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_subs AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_audio AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_mult_likes AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_mult_dislikes AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_mult_genre AUTO_INCREMENT=1;""")
             conn.commit()
         if films:
-            rows = get_films()
+            rows = get_films(conn)
             for row in rows:
-                cursor.execute(f"DELETE FROM mult_film_genre WHERE film_id = {row['id']}")
-                conn.commit()
-                cursor.execute(f"DELETE FROM mult_film WHERE id = {row['id']};")
-            conn.commit()
+                delete_by_name(row['title_name'], False, False, conn)
             cursor.execute("""ALTER TABLE mult_film_genre AUTO_INCREMENT=1;""")
             cursor.execute("""ALTER TABLE mult_seriesfilms AUTO_INCREMENT=1;""")
             cursor.execute("""ALTER TABLE mult_film AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_film_likes AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_film_dislikes AUTO_INCREMENT=1;""")
+            cursor.execute("""ALTER TABLE mult_film_genre AUTO_INCREMENT=1;""")
             conn.commit()
         if subs:
-            for row in get_subs():
+            for row in get_subs(conn):
                 cursor.execute(f"DELETE FROM mult_subs WHERE id = {row[1]};")
             cursor.execute("""ALTER TABLE mult_subs AUTO_INCREMENT=1;""")
+            conn.commit()
         if audio:
-            for row in get_audio():
+            for row in get_audio(conn):
                 cursor.execute(f"DELETE FROM mult_audio WHERE id = {row[1]};")
             cursor.execute("""ALTER TABLE mult_audio AUTO_INCREMENT=1;""")
+            conn.commit()
         conn.close()
     except Error:
         conn.close()
-        print(Error)
+        print("База данных не очищена!!!")
+        exit()
 
 
 def create(conn):
@@ -202,7 +300,12 @@ def create(conn):
 
 
 def connect(db):
-    """ Connect to MySQL database """
+    """
+    Подключение к MySQL базе данных
+    :param db: Данные для подключения к базе данных
+    :type db: dict
+    :return: Объект подключения к базе данных
+    """
     try:
         conn = mysql.connector.connect(**db)
         if conn.is_connected():
@@ -213,6 +316,11 @@ def connect(db):
 
 
 def export_mult(k):
+    """
+    Экспорт найденных мультфильмов в базу данных
+    :param k: Словарь с мультфильмами на экспорт
+    :type k: dict
+    """
     try:
         conn = connect(read_db_config())
         cursor = conn.cursor()
@@ -225,13 +333,13 @@ def export_mult(k):
             print(insert)
             cursor.execute(insert)
             conn.commit()
-            genres = get_genres()
+            genres = get_genres(conn)
             mult_genres = item["detail"]["genre"]
             if mult_genres:
                 for genre in mult_genres:
                     if genre not in [g[1] for g in genres]:
                         add_genre(genre)
-                        genres = get_genres()
+                        genres = get_genres(conn)
                     cursor.execute(f"""INSERT INTO mult_mult_genre (mult_id, genre_id) VALUES 
                                     ('{get_mult_id(item["directory"], cursor)[0]}', '{get_genre_id(genre, cursor)[0]}');""")
                     conn.commit()
@@ -245,12 +353,12 @@ def export_mult(k):
                 if len(rows) > 1:
                     for row in rows:
                         if serie[1]['directory'] == row[0]:
-                            export_series(serie, row[1])
+                            export_series(serie, row[1], conn)
                 else:
                     into_series = f"SELECT unformated_name, id FROM mult_mult WHERE name='{item['detail']['name']}';"
                     cursor.execute(into_series)
                     rows = cursor.fetchall()
-                    export_series(serie, rows[0][1])
+                    export_series(serie, rows[0][1], conn)
         conn.close()
     except mysql.connector.errors.DatabaseError as err:
         with open("error.txt", "a+") as f:
@@ -258,9 +366,20 @@ def export_mult(k):
             f.write(str(err)+"\n"+insert+"\n")
 
 
-def export_series(item, id):
+def export_series(item, id, conn=None):
+    """
+    Экспорт серий мультфильмов в базу данных
+    :param item: Серия
+    :param id: ID мультфильма
+    :type id: int
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    :return:
+    """
     try:
-        conn = connect(read_db_config())
+        if not conn:
+            conn = connect(read_db_config())
+            global_conn = False
         cursor = conn.cursor()
         item[1]['full_path'], item[1]['full_name'] = item[1]['full_path'].replace("'", "\\'"), item[1]['full_name'].replace("'", "\'")
         item[1]['full_path'], item[1]['full_name'] = item[1]['full_path'].replace('"', '\\"'), item[1]['full_name'].replace('"', '\"')
@@ -268,6 +387,7 @@ def export_series(item, id):
         print(insert)
         cursor.execute(insert)
         conn.commit()
+        if "global_conn" in dir(): conn.close()
     except mysql.connector.errors.DatabaseError as err:
         with open("error.txt", "a+") as f:
             print("Error: ", err)
@@ -275,6 +395,13 @@ def export_series(item, id):
 
 
 def export_sub_audio(items, type):
+    """
+    Экспорт субтитров или аудио
+    :param items: Субтитры/аудио
+    :param type: тип audio/subs
+    :type type: str
+    :return:
+    """
     try:
         conn = connect(read_db_config())
         cursor = conn.cursor()
@@ -283,10 +410,7 @@ def export_sub_audio(items, type):
             cursor.execute(into_subs)
             rows = cursor.fetchall()
             if len(rows) > 0:
-                if type == "subs":
-                    insert = f"""INSERT INTO mult_subs (name_sub, autor, href, name_id, mult_id) VALUES ("{item['name']}", "{item['autor']}", "{item['full_path']}", {rows[0][1]}, {rows[0][2]});"""
-                elif type == "audio":
-                    insert = f"""INSERT INTO mult_audio (name_audio, autor, href, name_id, mult_id) VALUES ("{item['name']}", "{item['autor']}", "{item['full_path']}", {rows[0][1]}, {rows[0][2]});"""
+                insert = f"""INSERT INTO mult_{type} (name_{type.replace('subs', 'sub')}, autor, href, name_id, mult_id) VALUES ("{item['name']}", "{item['autor']}", "{item['full_path']}", {rows[0][1]}, {rows[0][2]});"""
                 print(insert)
                 cursor.execute(insert)
                 conn.commit()
@@ -311,13 +435,13 @@ def export_film(k):
             print(insert)
             cursor.execute(insert)
             conn.commit()
-            genres = get_genres()
+            genres = get_genres(conn)
             film_genres = item['detail']['genre']
             if film_genres:
                 for genre in film_genres:
                     if genre not in [g[1] for g in genres]:
-                        add_genre(genre)
-                        genres = get_genres()
+                        add_genre(genre, conn)
+                        genres = get_genres(conn)
                     cursor.execute(f"""INSERT INTO mult_film_genre (film_id, genre_id) VALUES 
                                     ("{get_film_id(directory, cursor)[0]}", "{get_genre_id(genre, cursor)[0]}");""")
                     conn.commit()
@@ -328,20 +452,30 @@ def export_film(k):
                 rows = cursor.fetchall()
                 for row in rows:
                     print(f"{row}")
-                export_series_film(serie, rows[0][1])
+                export_series_film(serie, rows[0][1], conn)
         conn.close()
     except mysql.connector.errors.DatabaseError as err:
         print("Error: ", err)
 
 
-def export_series_film(item, id):
+def export_series_film(item, id, conn):
+    """
+    Экспорт серий фильмов в базу данных
+    :param item: Серия
+    :param id: ID фильма
+    :param conn: Подключение к базе
+    :type conn: MySQLConnection
+    """
     try:
-        conn = connect(read_db_config())
+        if not conn:
+            conn = connect(read_db_config())
+            global_conn = False
         cursor = conn.cursor()
         insert = f"""INSERT INTO mult_seriesfilms (name_serie, href, full_name, name_id) VALUES ("{item['name']}", "{item['full_path']}", "{item['full_name']}", "{id}")"""
         print(insert)
         cursor.execute(insert)
         conn.commit()
+        if "global_conn" in dir(): conn.close()
     except mysql.connector.errors.DatabaseError as err:
         print("Error: ", err)
 

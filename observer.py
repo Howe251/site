@@ -103,7 +103,7 @@ def delete():
     for DB in mults_online:
         if DB["title_name"] not in [ser_title_DB['directory'] for ser_title_DB in mults_local]:
             print(DB["title_name"], "Есть в базе данных, но нет на сервере --> Удаляю из БД")
-            Database.delete_mults_by_name(DB["title_name"], True, False)
+            Database.delete_by_name(DB["title_name"], True, False)
             break
 
 
@@ -114,7 +114,7 @@ def deleteSeries(path):
         if path[:path.find("/")] == DB["title_name"]:
             for serie in DB["serie_name"]:
                 if serie[1] == path[path.find("/")+1:]:
-                    Database.delete_mults_by_name(serie, True, True)
+                    Database.delete_by_name(serie, True, True)
                     print("Удалил ->", serie)
                     break
 
