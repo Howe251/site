@@ -1,6 +1,5 @@
 import time
 from googletrans import Translator, constants
-from imdb import IMDb
 import re
 import requests
 import json
@@ -97,7 +96,7 @@ def KinopoiskParse(title):
         if genre['genre'] == "аниме":
             film2 = shiki_parcer.parce(params={'search': title})
             if len(set(film['nameEn'].lower().split()) &
-                   set(film2['name'][film2['name'].find("/")+2:].lower().split())) > 1:
+                   set(film2['name'].split("/")[1].lower().split())) > 1:
                 return film2
         genres.append(genre['genre'].capitalize())
     if film['seasons']:

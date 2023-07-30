@@ -40,7 +40,7 @@ def get_content(html):
     eps = "Фильм"
     item = soup.find('div', class_='b-db_entry')
     img = item.find('img').get('src')
-    img = img[0:img.find("?")]
+    img = img.split('?')[0]
     anime = []
     info = soup.find_all('div', class_='line-container')
     #print(len(info))
@@ -76,14 +76,8 @@ def get_content(html):
         })
     return anime[0]
 
-    # with open("test.json", "w") as f:
-    # f.writelines(items)
-    # print(items)
-
 
 def search(params):
-    # url = "https://shikimori.one/animes"
-    # params = "search=" + params
     print(params)
     html = get_html(URL, params)
     if html.status_code == 200:
