@@ -39,8 +39,8 @@ def get_content(html):
     status = ''
     eps = "Фильм"
     item = soup.find('div', class_='b-db_entry')
-    img = item.find('img').get('src')
-    img = img.split('?')[0]
+    img = item.find('div', class_='b-db_entry-poster b-image unprocessed').get('data-href')
+    # img = img.split('?')[0]
     anime = []
     info = soup.find_all('div', class_='line-container')
     #print(len(info))

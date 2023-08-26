@@ -35,7 +35,7 @@ def find_series_mult(k, i, mult):
             name = remove(directory[0:pathid].replace(".", " "))
         else:
             path = directory
-            name = remove(directory.replace(".", " "))
+            name = remove(directory)#.replace(".", " "))
             serial = False
         series = []
         if serial:
@@ -76,11 +76,16 @@ def find_files(root_dir, ext):
     :return: Список найденных файлов
     """
     k = []
-    for root, dirs, files in os.walk(root_dir, followlinks=True):
+    for root, dirs, files in os.walk(root_dir, followlinks=True, onerror=file_error):
         for file in files:
             if file.endswith(tuple(ext)):
                 k.append(os.path.join(root, file))
     return k
+
+
+def file_error(*args, **kwargs):
+    print(args[0])
+    sys.exit()
 
 
 def check_files_mkv_mult():
@@ -311,8 +316,9 @@ def remove(k):
     """
     linest = ("(", ")", "[", "]", "{", "}")
     k = k.replace(".1.", ".")
-    if "mkv" in k:
-        k = k.replace(".", " ")[0:-3].strip()
+    if k.endswith(("mkv", "avi")):
+        k = os.path.splitext(k)[0]
+        k = k.replace(".", " ")
     else:
         k = k.replace(".", " ").strip()
     k = k.replace("_", " ")
@@ -334,12 +340,12 @@ def remove(k):
     for word in words:
         # if word in k:
         #     k = k.replace(word, "").strip()
-        copyk = list(filter(None, k.lower().split(" ")))
+        copyk = k.lower().split()
         for i, w in enumerate(copyk):
             if word.lower() == w:
-                k = list(filter(None, k.split()))
-                k.pop(i)
-                copyk.pop(i)
+                k = k.split()
+                k = k[:i]
+                copyk = copyk[:i]
                 k = " ".join(k)
                 #k = "".join(k.split().pop(i))
         if len(k) == 0:

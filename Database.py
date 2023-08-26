@@ -458,7 +458,7 @@ def export_film(k):
         print("Error: ", err)
 
 
-def export_series_film(item, id, conn):
+def export_series_film(item, id, conn=None):
     """
     Экспорт серий фильмов в базу данных
     :param item: Серия

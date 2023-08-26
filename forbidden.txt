@@ -3,12 +3,10 @@ films/
 надписи
 Надписи
 Фильмы
-&
 1080
 1080i
 1080p
 10Bbit
-10
 bit
 10bit
 1O8Op
@@ -63,6 +61,7 @@ DL
 DD5
 DDP5
 DDP5 1
+BDRIP
 DivX
 DNSP
 DR5
@@ -150,7 +149,6 @@ TNClub
 Ton
 tv
 TV
-to
 TeamHD-TayTO
 Ukr
 -VietHD
@@ -163,6 +161,7 @@ WEBDL
 WEB-DLRip
 WEBRip
 WEBRip-AVC
+WEVDLRIP
 web-dl1080p
 х264
 x264
@@ -177,3 +176,4 @@ zsRutracker
 season
 zOJIOtOi
 RHS
+x264-tG1R0
